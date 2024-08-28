@@ -10,19 +10,23 @@ A shape index maps an RDF data shape to a set of linked data resources, to provi
 
 ## Aim, scope, and intended audience
 
-## Document conventions
 
-## Introduction
+## Document conventions
+All assertions, diagrams, examples, and notes are non-normative, as are all sections explicitly marked non-normative. Everything else is normative. 
+
+The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here. 
+
+(copied from https://solid.github.io/type-indexes/)
 
 ### Terminology
 
 Subweb
 
-    - A set of IRI or IRI patterns
+    - A subsection of web defined by a set of IRI or IRI patterns.
 
 RDF data shape
 
-    - Schema definition of sets of RDF entities
+    - Schema definition of RDF subgraph, independant from a shape language.
 
 Complete index
 
@@ -33,5 +37,17 @@ Complete index
 
 ## Shape index
 
+A shape index is a mapping between sets of documents and RDF data shapes of any language with information about the subweb that the data publisher operates in and an indication of whether or not the shape index reports every file published in the subweb of the data publisher.
+Information about the absence in the subweb of dependent shapes can also be encoded in the index.
 
+
+The purpose of a shape index is to organise and control the data quality of a small decentralized environments. 
+
+## Negative entries
+
+## How to discover a Shape Index
+
+## Shape index Data Validation
+
+## Shape Index for source selection
 
