@@ -66,12 +66,15 @@ The target is a set of RDF resources where every triple within them MUST be vali
   si:subweb <http://mySubweb.com/> ;
   si:subweb "http://mySubweb.com/0/data/.*/*" ;
   si:hasEntry [
+    a si:Entry ;
     si:bindByShape <ex:profile#ProfileShape> ;
     si:target <http://mySubweb.com/profile>
   ], [
+    a si:Entry ;
     si:bindByShape <ex:movieReview#movieReviewShape> ;
     si:target "http://mySubweb.com/0/data/movie_review/.*"
   ] , [
+    a si:Entry ;
     si:bindByShape <http://mySubweb.com/readingList#readingListShape> ;
     si:target <http://mySubweb.com/0/data/personal_reading_list>
     si:target <http://mySubweb.com/0/data/research/paper_list>
@@ -116,6 +119,7 @@ It is RECOMMENDED to use these entries alongside shape constraints in the index,
 <http://mySubweb.com/index2> a si:ShapeIndex ;
   si:subweb "http://mySubweb.com/1/data/.*/*" ;
   si:hasEntry [
+    a si:Entry ;
     si:bindByShape <ex:profile#ProfileShape> ;
     si:target <http://mySubweb.com/profile>
   ];
@@ -136,7 +140,22 @@ Examples include at the root, at the location where other dataset information is
 Another RECOMMENDED approach is to advertise the location of the shape index in the HTTP header.
 This SHOULD be in the form `Link: <iri-of-the-shape-index>; rel="http://www.shapeindex.com#shapeIndexLocation"`.
 
-## Shape Index for source selection
+## Shape Index for query optimization
+__This section is non-normative__
+
+One of the main objectives of the shape index is query optimization.
+This section provides an overview of the current approaches used to optimize queries with the shape index.
+As this section is non-normative and practices can evolve, it is subject to change. Readers are encouraged to contact the maintainers to propose new approaches or suggest extensions to the shape index based on techniques that build upon this approach.
+
+### Search space optimization
+
+The shape index shares some similarities with the [Type Indexes](https://solid.github.io/type-indexes/index.html) (reference added at the end).
+Data discovery techniques like the one presented by [Taelman et al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/) (reference added at the end) can be employed with small adaptations. 
+[Taelman et al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/)'s technique involves pruning sources associated with entries that do not share predicates with the user's query. Although this approach is an non-evaluated extension of their original method, it is expected to deliver performance that is equal to or better than the results presented in their paper.
+
+Another approach, however, built to use the shape index, has been proposed by [Tam et al.](https://github.com/constraintAutomaton/AWM-shape-index-short-paper). This approach involves translating shapes into SPARQL algebra and performing a query containment problem between the user’s query and the translated shapes to determine which sources to dereference, taking into account the subweb and the completeness of the index. This method has been shown to significantly reduce query execution time compared to the approach by [Taelman et al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/). However, it does not consider negative entries and has not been as extensively evaluated as [Taelman et al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/)'s method.
+
+
 
 ## Vocabulary
 
@@ -149,6 +168,12 @@ A shape index
 `si:subweb`, `si:complete`, `si:hasEntry`, `si:doesNotContain`
 
 ### si:shapeIndexLocation
+indicate that a shape index is located at the IRI at the object position.
+
+#### domain
+
+#### range
+`si:ShapeIndex`
 
 ### si:subweb
 The section of the web that the shape index caracterizes.
@@ -174,17 +199,42 @@ A flag indicating if a shape index is complete.
 `xsd:boolean`
 
 ### si:hasEntry
+indicate the location of a `si:Entry` of a shape index.
+
+#### domain
+`si:ShapeIndex`
+
+#### range 
+`si:Entry`
 
 ### si:Entry
+A shape index entry mapping a shape of resources to an RDF shape.
+
+#### domain
+
+#### range
+`si:bindByShape`, `si:target`
+
 
 ### si:bindByShape
+The shape binding a `si:target`.
+
+#### domain
+`si:Entry`
+#### range
 
 ### si:target
+A set of resources bind by a shape.
+#### domain
+`si:Entry`
+#### range
 
 ### si:doesNotContain
+A shape that validate data not contain in the subweb of a shape index.
+#### domain
+`si:ShapeIndex`
+#### range
 
 ## References
 
-https://solid.github.io/type-indexes/
-
-https://linkeddatafragments.org/specification/triple-pattern-fragments/#document-conventions
+TODO...
