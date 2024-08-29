@@ -112,8 +112,6 @@ ex:Citizen {
 
 ## How to discover a Shape Index
 
-## Shape index Data Validation
-
 ## Shape Index for source selection
 
 ## Vocabulary
@@ -134,20 +132,20 @@ in a tree structure.
 
 #### domain 
 
-si:ShapeIndex
+`si:ShapeIndex`
 
 #### range 
-xsd:string
+`xsd:string`
 
 ### si:complete
 A flag indicating if a shape index is complete.
 
 #### domain 
 
-si:ShapeIndex
+`si:ShapeIndex`
 
 #### range 
-xsd:boolean
+`xsd:boolean`
 
 ### si:hasEntry
 
