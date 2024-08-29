@@ -15,6 +15,7 @@ This document does not propose a mechanism for data validation, particularly con
 The voice of the document is mostly from the perspective of developers who want to use the shape index for query optimization.
 
 ## Document conventions
+
 All assertions, diagrams, examples, and notes are non-normative, as are all sections explicitly marked non-normative. Everything else is normative. 
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here. 
@@ -105,6 +106,25 @@ ex:Citizen {
 ```
 
 ## Negative entries
+
+The shape index provides the ability to describe data shapes that are not present within a subweb.
+This is indicated using the si:doesNotContain property associated with a specific shape.
+These shapes MUST adhere to a closed-world assumption, ensuring that no sets of triples within the entire subweb validate against this shape.
+It is RECOMMENDED to use these entries alongside shape constraints in the index, particularly to specify when nested shapes are absent from the subweb.
+
+```turtle
+<http://mySubweb.com/index2> a si:ShapeIndex ;
+  si:subweb "http://mySubweb.com/1/data/.*/*" ;
+  si:hasEntry [
+    si:bindByShape <ex:profile#ProfileShape> ;
+    si:target <http://mySubweb.com/profile>
+  ];
+
+  si:doesNotContain <ex:plant#PlantShapes>.
+  si:doesNotContain <ex:car#CarShapes>.
+
+  si:isComplete true .
+```
 
 ## How to discover a Shape Index
 The discovery of the shape index is left to the data provider.
