@@ -63,6 +63,25 @@ Each entry includes a target set identified by the term `si:target`.
 Target sets are bound by a shape identified by the term `si:bindByShape`.
 The target is a set of RDF resources where every triple within them MUST be validated by the shape linked to the target through a `si:bindByShape` annotation. 
 
+```turtle
+<http://mySubweb.com/index1> a si:ShapeIndex ;
+  si:subweb <http://mySubweb.com/> ;
+  si:subweb "http://mySubweb.com/0/data/.*/*" ;
+  si:hasEntry [
+    si:bindByShape <ex:profile#ProfileShape> ;
+    si:target <http://mySubweb.com/profile>
+  ], [
+    si:bindByShape <ex:movieReview#movieReviewShape> ;
+    si:target "http://mySubweb.com/0/data/movie_review/.*"
+  ] , [
+    si:bindByShape <http://mySubweb.com/readingList#readingListShape> ;
+    si:target <http://mySubweb.com/0/data/personal_reading_list>
+    si:target <http://mySubweb.com/0/data/research/paper_list>
+    si:target "http://mySubweb.com/0/data/reading_list/*"
+  ] ;
+  si:isComplete true .
+```
+
 Furthermore, every set of triples respecting a shape with a close world assumption of `si:bindByShape` MUST be inside a resource of the target.
 It is RECOMMENDED to use shapes with close-world assumptions.
 If shapes with open-world assumptions are used then, triples respecting the shape SHOULD be inside a resource of the target.
@@ -89,28 +108,19 @@ ex:Citizen {
 ```
 
 
-```turtle
-<http://mySubweb.com/index1> a si:ShapeIndex ;
-  si:subweb <http://mySubweb.com/> ;
-  si:subweb "http://mySubweb.com/0/data/.*/*" ;
-  si:hasEntry [
-    si:bindByShape <ex:profile#ProfileShape> ;
-    si:target <http://mySubweb.com/profile>
-  ], [
-    si:bindByShape <ex:movieReview#movieReviewShape> ;
-    si:target "http://mySubweb.com/0/data/movie_review/.*"
-  ] , [
-    si:bindByShape <http://mySubweb.com/readingList#readingListShape> ;
-    si:target <http://mySubweb.com/0/data/personal_reading_list>
-    si:target <http://mySubweb.com/0/data/research/paper_list>
-    si:target "http://mySubweb.com/0/data/reading_list/*"
-  ] ;
-  si:isComplete true .
-```
+
 
 ## Negative entries
 
 ## How to discover a Shape Index
+The discovery of the shape index is left to the data provider.
+However, two approaches are RECOMMENDED.
+
+The data provider can use the predicate`si:shapeIndexLocation` with as an object the IRI of the shape index. This triple can be placed at convenient locations in the data provider subweb. 
+Examples include at the root, at the location where other dataset information is provided, or in every file of the subweb.
+
+Another RECOMMENDED approach is to advertise the location of the shape index in the HTTP header.
+This SHOULD be in the form `Link: <iri-of-the-shape-index>; rel="si:shapeIndexLocation"`.
 
 ## Shape Index for source selection
 
@@ -123,6 +133,8 @@ A shape index
 
 #### range
 `si:subweb`, `si:complete`, `si:hasEntry`, `si:doesNotContain`
+
+### si:shapeIndexLocation
 
 ### si:subweb
 The section of the web that the shape index caracterizes.
