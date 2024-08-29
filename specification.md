@@ -1,7 +1,4 @@
 # Shape index
-https://solid.github.io/type-indexes/
-
-https://linkeddatafragments.org/specification/triple-pattern-fragments/#document-conventions
 
 ## Abstract
 The open web and linked data are often seen as complementary, yet this doesn't imply that data publication should be disorganized.
@@ -107,9 +104,6 @@ ex:Citizen {
 }
 ```
 
-
-
-
 ## Negative entries
 
 ## How to discover a Shape Index
@@ -168,3 +162,9 @@ A flag indicating if a shape index is complete.
 ### si:target
 
 ### si:doesNotContain
+
+## References
+
+https://solid.github.io/type-indexes/
+
+https://linkeddatafragments.org/specification/triple-pattern-fragments/#document-conventions
