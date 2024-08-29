@@ -120,7 +120,7 @@ The data provider can use the predicate`si:shapeIndexLocation` with as an object
 Examples include at the root, at the location where other dataset information is provided, or in every file of the subweb.
 
 Another RECOMMENDED approach is to advertise the location of the shape index in the HTTP header.
-This SHOULD be in the form `Link: <iri-of-the-shape-index>; rel="si:shapeIndexLocation"`.
+This SHOULD be in the form `Link: <iri-of-the-shape-index>; rel="http://www.shapeindex.com#shapeIndexLocation"`.
 
 ## Shape Index for source selection
 
