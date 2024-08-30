@@ -55,7 +55,7 @@ A shape with a close world assumption, meaning that the shape describes the whol
 
 A shape index is a scoped mapping between sets of RDF resources and RDF data shapes.
 In this context, a scope means that the index is characterized by a pair identifying a subweb `si:subweb` and the completeness of the index `si:complete`.
-A subweb is a set of IRI, which can be also simplified by using IRI patterns, the completeness of a 
+A subweb is a set of IRI or IRI patterns manage by the data provider, the completeness of a 
 shape index indicates if every resource in the subweb is associated with a shape.
 This characterization of the scope of the index is useful for two reasons.
 First, query optimizations related to the shape index are local, hence it is interesting for query engines
