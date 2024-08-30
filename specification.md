@@ -4,14 +4,14 @@
 The open web and linked data are often seen as complementary, yet this doesn't imply that data publication should be disorganized.
  While the web as a whole lacks a clear structure, specific structures can be imposed on web segments through hypermedia descriptions and precise specifications. 
 This document introduces the _Shape Index_ specification, designed to 
-facilitate data quality and query execution time in decentralized unindexed networks of linked data. The shape index leverages RDF data shapes to provide lightweight yet powerful structural and statistical data.
+facilitate data quality and query execution time in decentralized unindexed networks of linked data. The shape index leverages RDF data shapes to provide lightweight yet powerful structural and statistical information.
 
 
 ## Aim, scope, and intended audience
 
-The present document outlines how  to annotate networks of datasets with a shape index and proposes methods
+The present document outlines how to annotate networks of datasets with a shape index and proposes methods
 by which the query engines can optimize traversal queries using this index. 
-This document does not propose a mechanism for data validation, particularly continuous data validation during the insertion of data and update of the data model or structure of publication implying changes in the index. 
+This document does not propose a mechanism for data validation, particularly continuous data validation during the insertion operations and update of the data model or structure of publication. 
 The voice of the document is mostly from the perspective of developers who want to use the shape index for query optimization.
 
 ## Document conventions
@@ -36,10 +36,20 @@ A subsection of the web, defined by a set of IRIs or IRI patterns.
 __RDF Data Shape__
 
 A schema definition for an RDF subgraph, independent of any specific shape language. Typically, this MAY be formalized in ShEx or SHACL.
+Used interchangeably with the shortening shape.
 
 __Complete Index__
 
 An index that fully describes every resource within its associated subweb.
+
+__Open shape__
+
+A shape with a open world assumption, meaning that data respecting the shape can containing more non contradicting information than what is described.
+
+__Close shape__
+
+A shape with a close world assumption, meaning that the shape describes the whole set of information data must contain, hence a set of data containing more information does not respect the shape.
+
 
 ## Shape index
 
