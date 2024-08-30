@@ -92,11 +92,11 @@ The target is a set of RDF resources where every triple within them MUST be vali
   si:isComplete true .
 ```
 
-Furthermore, every set of triples respecting a shape with a close world assumption of `si:bindByShape` MUST be inside a resource of the target.
+Furthermore, every set of triples within the subweb respecting a shape with a close world assumption associated with a `si:bindByShape` MUST be inside a resource of the target annotated with the shape.
 It is RECOMMENDED to use shapes with close-world assumptions.
 If shapes with open-world assumptions are used then, triples respecting the shape SHOULD be inside a resource of the target.
 
-Given shapes contained with each other that are used as binding for targets (see the example below and notice that the shapes are open) then a set of triples respecting the most restrictive shape (`ex:Citizen` in the example) SHOULD be located inside the resources of this target.
+Given shapes contained with each other used as binding for targets (see the example below and notice that the shapes are open) then a set of triples respecting the most restrictive shape (`ex:Citizen` in the example) SHOULD be located inside the resources of this target.
 In a similar case but with closed shapes, the set of triples MUST be located at the target of the most restrictive shape.
 If a set of triples can be validated by an open and a closed shape, the set MUST be inside the target of the closed shape. A resource MUST only be bound to a maximum of one shape.
  
