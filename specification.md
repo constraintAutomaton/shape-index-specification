@@ -119,8 +119,8 @@ ex:Citizen {
 
 ## Negative entries
 
-The shape index provides the ability to describe data shapes that are not present within a subweb.
-This is indicated using the si:doesNotContain property associated with a specific shape.
+The shape index provides the ability to describe RDF data shapes that are not present within a subweb.
+This is indicated using the `si:doesNotContain` property with a specific shape associated.
 These shapes MUST adhere to a closed-world assumption, ensuring that no sets of triples within the entire subweb validate against this shape.
 It is RECOMMENDED to use these entries alongside shape constraints in the index, particularly to specify when nested shapes are absent from the subweb.
 
@@ -143,8 +143,9 @@ It is RECOMMENDED to use these entries alongside shape constraints in the index,
 The discovery of the shape index is left to the data provider.
 However, two approaches are RECOMMENDED.
 
-The data provider can use the predicate`si:shapeIndexLocation` with as an object the IRI of the shape index. This triple can be placed at convenient locations in the data provider subweb. 
-Examples include at the root, at the location where other dataset information is provided, or in every file of the subweb.
+The data provider can use the predicate`si:shapeIndexLocation` with as an object the IRI of the shape index.
+This triple can be placed at convenient locations in the data provider subweb. 
+Examples of such placements are at the root, at the location where other dataset information is provided, or in every file of the subweb.
 
 Another RECOMMENDED approach is to advertise the location of the shape index in the HTTP header.
 This SHOULD be in the form `Link: <iri-of-the-shape-index>; rel="http://www.shapeindex.com#shapeIndexLocation"`.
