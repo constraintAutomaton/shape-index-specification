@@ -61,7 +61,6 @@ This characterization of the scope of the index is useful for two reasons.
 First, query optimizations related to the shape index are local, hence it is interesting for query engines
 to know which subwebs are affected by the optimization when performing traversal queries.
 Second, it is OPTIONAL to describe within a shape index every resource of a subweb, however, it is RECOMMENDED.
-We define an index characterizing every resource in its subweb as complete `si:complete`.
 Data providers might not want to describe every resource in its subweb to reduce potential computational time associated
 with keeping the mapping valid or to give themselves more flexibility in their data publication paradigm in a section of their subweb.
 
