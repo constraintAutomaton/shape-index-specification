@@ -78,8 +78,9 @@
       The following prefixes are used throughout the document.
     </p>
     <pre class="query nohighlight">
-      PREFIX si: &lt;http://www.shapeindex.com#&gt;
-      PREFIX ex: &lt;http://www.example.com#&gt;   
+      PREFIX si: &lt;http://www.shapeindex.com#&gt; .
+      PREFIX ex: &lt;http://www.example.com#&gt; .
+      PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
     </pre>
   </section>
 
@@ -278,6 +279,67 @@
       entries and has not been as extensively evaluated as [Taelman et
       al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/)'s method.
     </p>
+  </section>
+
+  <section id="vocabulary">
+    <h2>Vocabulary</h2>
+    <p>
+      This section present the vocabulary to define a Shape Index.
+    </p>
+
+    <h3>`si:ShapeIndex`</h3>
+    <p>A Shape Index</p>
+    <h4>Domain</h4>
+    <h4>Range</h4>
+    <p>`si:subweb`, `si:complete`, `si:hasEntry`, `si:doesNotContain`</p>
+
+    <h3>`si:shapeIndexLocation`</h3>
+    <p>
+      Indicate that a shape index is located at the IRI at the object position of a triple using this term at the
+      predicate position.
+    </p>
+    <h4>Domain</h4>
+    <h4>Range</h4>
+    <p>`si:ShapeIndex`</p>
+
+    <h3>`si:subweb`</h3>
+    <p>
+      The section of the web that the shape index caracterizes.
+      It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
+      To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
+      in a tree structure.
+    </p>
+    <h4>Domain</h4>
+    <p>`si:ShapeIndex`</p>
+    <h4>Range</h4>
+    <p>`xsd:string`</p>
+
+    <h3>`si:complete`</h3>
+    <p>
+      A flag indicating if a shape index is complete, thus, every resource inside the subweb is describe by the index.
+    </p>
+    <h4>Domain</h4>
+    <p>`si:ShapeIndex`</p>
+    <h4>Range</h4>
+    <p>`xsd:boolean`</p>
+
+    <h3>`si:Entry`</h3>
+    A shape index entry mapping a shape of resources to an RDF shape.
+    <h4>Domain</h4>
+    <h4>Range</h4>
+    <p>`si:bindByShape`, `si:target`</p>
+
+    <h3>`si:bindByShape`</h3>
+    The shape binding a `si:target`.
+    <h4>Domain</h4>
+    <p>`si:Entry`</p>
+    <h4>Range</h4>
+
+    <h3>`si:doesNotContain`</h3>
+    Indicate that a shape validate data not contain in the subweb of a shape index.
+    <h4>Domain</h4>
+    <p>`si:ShapeIndex`</p>
+    <h4>Range</h4>
   </section>
 
   <section id="index"></section>
