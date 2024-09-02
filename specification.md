@@ -1,10 +1,13 @@
 # Shape index
 
 ## Abstract
-The open web and linked data are often seen as complementary, yet this doesn't imply that data publication should be disorganized.
- While the web as a whole lacks a clear structure, specific structures can be imposed on web segments through hypermedia descriptions and precise specifications. 
-This document introduces the _Shape Index_ specification, designed to 
-facilitate data quality and query execution time in decentralized unindexed networks of linked data. The shape index leverages RDF data shapes to provide lightweight yet powerful structural and statistical information.
+The open web and linked data are often seen as complementary,
+yet this doesn't imply that data publication should be disorganized.
+While the web as a whole lacks a clear structure, specific structures can be imposed on web segments through 
+hypermedia descriptions and precise specifications. 
+This document introduces the _Shape Index_ specification, 
+designed to facilitate data quality and query execution time in decentralized unindexed networks of linked data.
+The shape index leverages RDF data shapes to provide lightweight yet powerful structural and statistical information.
 
 
 ## Aim, scope, and intended audience
