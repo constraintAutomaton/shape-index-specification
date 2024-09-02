@@ -44,7 +44,7 @@ var localBibliography = {
     "href": "https://comunica.github.io/Article-ISWC2023-SolidQuery/",
     "title": "Link Traversal Query Processing over Decentralized Environments with Structural Assumptions",
     "rawDate": "2023",
-    status: "Conference Proceeding",
+    "status": "Conference Proceeding",
     "publisher": "22nd International Semantic Web Conference – ISWC 2023"
   },
   "TAM-2024": {
@@ -57,7 +57,7 @@ var localBibliography = {
     "href": "https://github.com/constraintAutomaton/AWM-shape-index-short-paper",
     "title": "Opportunities for Shape-Based Optimization of Link Traversal Queries",
     "rawDate": "2024",
-    status: "Proceeding",
+    "status": "Proceeding",
     "publisher": "Alberto Mendelzon International Workshop on Foundations of Data Management (AMW 2024)"
   },
 };
