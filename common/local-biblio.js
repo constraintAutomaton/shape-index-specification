@@ -1,4 +1,28 @@
 var localBibliography = {
+  "SHEX-SPEC": {
+    "authors": [
+        "Eric Prud'hommeaux",
+        "Iovka Boneva",
+        "Jose Emilio Labra Gayo",
+        "Gregg Kellogg"
+    ],
+    "href": "https://shex.io/shex-semantics/",
+    "title": "Shape Expressions Language 2.1",
+    "rawDate": "2019-10-08",
+    "status": "CG-FINAL",
+    "publisher": "Shape Expressions Community Group"
+  },
+  "SHACL": {
+    "authors": [
+        "Holger Knublauch",
+        "Dimitris Kontokostas",
+    ],
+    "href": "https://www.w3.org/TR/shacl/",
+    "title": "Shapes Constraint Language (SHACL)",
+    "rawDate": "2017-07-20",
+    "status": "REC",
+    "publisher": "W3C"
+  },
   "TYPE-INDEX-SPEC": {
     "authors": [
         "Jeff Zucker",
