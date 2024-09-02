@@ -237,7 +237,11 @@
 
     <p>
       Another RECOMMENDED approach is to advertise the location of the shape index in the HTTP header.
-      This SHOULD be in the form `Link: <iri-of-the-shape-index>; rel="http://www.shapeindex.com#shapeIndexLocation"`.
+      This SHOULD be in the form
+    <pre class="query nohighlight">
+        Link: <iri-of-the-shape-index>; rel="http://www.shapeindex.com#shapeIndexLocation".
+      </pre>
+
     </p>
   </section>
 
@@ -258,26 +262,25 @@
 
     <h3>Search Space Optimization</h3>
     <p>
-      The shape index shares some similarities with the [Type Indexes](https://solid.github.io/type-indexes/index.html)
-      (reference added at the end).
-      Data discovery techniques like the one presented by [Taelman et
-      al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/) (reference added at the end) can be employed with
+      The shape index shares some similarities with the Type Indexes [[TYPE-INDEX-SPEC]].
+      Data discovery techniques like the one presented by <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a> [[TAELMAN-2023]] can be
+      employed with
       small adaptations.
-      [Taelman et al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/)'s technique involves pruning sources
+      <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>'s technique involves pruning sources
       associated with entries that do not share predicates with the user's query. Although this approach is an
       non-evaluated extension of their original method, it is expected to deliver performance that is equal to or better
       than the results presented in their paper.
     </p>
 
     <p>
-      Another approach, however, built to use the shape index, has been proposed by [Tam et
-      al.](https://github.com/constraintAutomaton/AWM-shape-index-short-paper). This approach involves translating
+      Another approach, however, built to use the shape index, has been proposed by <a data-cite="TAM-2024#">Tam et
+        al.</a> [[TAM-2024]] .
+      This approach involves translating
       shapes into SPARQL algebra and performing a query containment problem between the user’s query and the translated
       shapes to determine which sources to dereference, taking into account the subweb and the completeness of the
       index. This method has been shown to significantly reduce query execution time compared to the approach by
-      [Taelman et al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/). However, it does not consider negative
-      entries and has not been as extensively evaluated as [Taelman et
-      al.](https://comunica.github.io/Article-ISWC2023-SolidQuery/)'s method.
+      <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>. However, it does not consider negative
+      entries and has not been as extensively evaluated as <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>'s method.
     </p>
   </section>
 
