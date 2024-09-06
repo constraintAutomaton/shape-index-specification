@@ -41,35 +41,37 @@
     <h2>Abstract</h2>
     <p>The open web and linked data are often seen as complementary,
       yet this doesn't imply that data publication should be disorganized.
-      While the web as a whole lacks a clear structure, specific structures can be imposed on web segments through
-      hypermedia descriptions and precise specifications.
+      While the web as a whole lacks a clear structure,
+      web segments can still be structured through hypermedia descriptions and precise specifications.
       This document introduces the <em>Shape Index</em> specification,
-      designed to facilitate data quality and query execution time in decentralized unindexed networks of linked data.
-      The shape index leverages RDF data shapes to provide lightweight yet powerful structural and statistical
-      information.</p>
+      designed to facilitate data quality control and execution of queries in decentralized unindexed networks of linked
+      data.
+      The shape index leverages RDF data shapes to provide explicit constraints on data publication and provide
+      lightweight yet
+      powerful structural and statistical information about the content of RDF datasets in decentralized networks.
+    </p>
   </section>
 
   <section id="aim">
     <h2>Aim, scope, and intended audience</h2>
     <p>
       The present document outlines how to annotate networks of datasets with a shape index and proposes methods
-      by which the query engines can optimize traversal queries using this index.
-      This document does not propose a mechanism for data validation, particularly continuous data validation during the
-      insertion operations and update of the data model or structure of publication.
-      The voice of the document is mostly from the perspective of developers who want to use the shape index for query
-      optimization.
+      by which query engines can optimize traversal queries using the information from the index.
+      This document does not propose a mechanism for data validation, particularly on updates affecting
+      the data model or the structure of the publication.
+      The document is aimed particularly at developers who want to use the shape index for query optimization.
     </p>
   </section>
 
   <section id="conformance">
-    
+
     <p>
       The following prefixes are used throughout the document.
     </p>
     <pre class="query nohighlight">
       PREFIX si: &lt;http://www.shapeindex.com#&gt; .
-      PREFIX ex: &lt;http://www.example.com#&gt; .
       PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+      PREFIX ex: &lt;http://www.example.com#&gt; .
     </pre>
   </section>
 
@@ -77,26 +79,96 @@
     <h2>Terminology</h2>
     <dl>
       <dt>Subweb</dt>
-      <dd>A subsection of the web, defined by a set of IRIs or IRI patterns.</dd>
+      <dd>A subset of the web, defined by a set of IRIs or IRI patterns (IRI patterns are considered as sets of IRI).
+      </dd>
 
       <dt>RDF Data Shape</dt>
-      <dd>A schema definition for an RDF subgraph, independent of any specific shape language. Typically, this MAY be
+      <dd>A schema definition of an RDF subgraph, independent of any specific shape language. Typically, this MAY be
         formalized in ShEx [[SHEX-SPEC]] or SHACL [[SHACL]].
-        Used interchangeably with the shortening shape.
+        The term is used interchangeably with the shortening shape.
       </dd>
 
       <dt>Complete Index</dt>
       <dd>An index that fully describes every resource within its associated subweb.</dd>
 
       <dt>Open shape</dt>
-      <dd>A shape with a open world assumption, meaning that data respecting the shape can containing more non
-        contradicting information than what is described.</dd>
+      <dd>A shape with an open world assumption, meaning that an RDF graph respecting the shape can be a subset of the
+        shape definition given no contradiction with the shape definition with for instance negative properties or
+        non-respecting term cardinalities.</dd>
 
-      <dt>Close shape</dt>
+      <dt>Closed shape</dt>
       <dd>A shape with a close world assumption,
-        meaning that the shape describes the whole set of information data must contain,
-        hence a set of data containing more information does not respect the shape.</dd>
+        meaning that the shape describes fully the contain of an RDF graph.</dd>
     </dl>
+  </section>
+
+  <section id="context">
+
+    <h2>Why a Shape Index</h2>
+    <bold>
+      This section is non-normative
+    </bold>
+
+    <p>
+      When publishing linked data providers have a lot of concerns ranging from the data model, ontology design to the
+      exposition through an endpoint and
+      distribution of
+      the dataset.
+      When the data publisher distribute its data they often structured it a logical way, for instance data about books
+      is located at `ex:books`,
+      personal data at `ex:profile` and so on.
+    </p>
+
+    <p>
+      The Solid specification [[SOLID-SPEC]] with its concept of storages often referred as pod [[TAELMAN-2023]] with
+      their use of the LDP specification [[LDP-SPEC]],
+      provide a form of structured to distributed linked data by delimiting the domain of publication of a dataset
+      following a tree structure URL patting.
+      Such a structure provides a mean for query engines to have some domain information about the publication of data
+      from a specific data publisher, but
+      it gives little actual information about the content of a pod, or more generally of a dataset to infer if it
+      content query relevant information or for query planning purposes.
+      The type index specification [[TYPE-INDEX-SPEC]], provide a limited means to know the content of a dataset or more
+      specifically a Solid pod that
+      can be exploited by query engines [[TAELMAN-2023]].
+      Succinctly the type index consists of a mapping between types and subweb with a single Solid pod.
+      The type index has two problems, first it only necessitates for the data provider to specify a type with no extra
+      information about
+      how properties associated with this type limit the capacity of query engines to determine if the sources are
+      relevant and provide very limited structural
+      and statistical information about the content of a data source.
+      Furthermore, the type index is strongly tied to Solid by not defining concretely the subweb it operates or whether
+      or not it describes the whole dataset within this subweb,
+      making this solution not generalizable for context outside of Solid.
+    </p>
+
+    <p>
+      The Shape Trees specification [[SHAPE-TREES-SPEC]] is another effort in that direction.
+      This specification proposes an indexing system centered around RDF data shapes alleviating the problem of limited
+      structural and statistical information about the content of data from the type index.
+      However, it suffers from its complexity and not a concrete definition of subweb (<a href="https://shapetrees.org/"
+        target="_blank">the specification is somewhat tied to Solid</a>).
+    </p>
+
+    <p>
+      We propose a Shape Index as a generalizable and extendable solution for decentralized RDF data publication data
+      summarization.
+      It can be considered as an evolution of the type index using the concept of shapes from the shape trees but in a
+      simpler manner.
+      The focus of the shape index however is query optimization while providing low cost for data providers statistical
+      and structural
+      information to the user.
+      The specification may evolve by providing optional richer higher-cost extra statistical information about data
+      sources for better
+      query optimization.
+      Like the shape trees the shape index is a mapping of RDF data shapes with resources, however, it proposes an
+      explicit definition of the subwebs
+      the shape index operates in, it also proposes information about whether or not the index describes each resource
+      of the subweb, furthermore, it gives
+      the possibility of having disjointed targets
+      and subwebs and negative entries to describe what is not inside a target or the whole subweb.
+    </p>
+
   </section>
 
   <section id="shape-index">
@@ -107,6 +179,8 @@
       completeness of the index `si:complete`.
       A subweb is a set of IRI or IRI patterns manage by the data provider, the completeness of a
       shape index indicates if every resource in the subweb is associated with a shape.
+      To create a disjunct subweb, a data publisher MUST use multiple times the predicate `si:subweb` which MUST be
+      interpreted as a union of sets of IRI (considering that an IRI pattern is a set of IRI already).
       This characterization of the scope of the index is useful for two reasons.
       First, query optimizations related to the shape index are local, hence it is interesting for query engines
       to know which subwebs are affected by the optimization when performing traversal queries.
@@ -119,38 +193,35 @@
 
     <p>
       The core feature of the shape index is its mappings.
-      A shape index can have multiple entries identified by the term`si:hasEntry`.
-      Each entry includes a target set identified by the term `si:target`.
-      Target sets are bound by a shape identified by the term `si:bindByShape`.
+      A shape index can have multiple entries identified by the term`si:entry`.
+      Each entry includes a target set identified by the term `si:range`.
+      Target sets are bound by a shape identified by the term `si:shape`.
       The target is a set of RDF resources where every triple within them MUST be validated by the shape linked to the
-      target through a `si:bindByShape` annotation.
+      target through a `si:shape` annotation.
     </p>
 
-    <pre class="query nohighlight">
+    <pre class="resultTurtle">
       &lt;http://mySubweb.com/index1&gt; a si:ShapeIndex ;
         si:subweb &lt;http://mySubweb.com/&gt; ;
         si:subweb "http://mySubweb.com/0/data/.*/*" ;
-        si:hasEntry [
-          a si:Entry ;
-          si:bindByShape ex:profile#ProfileShape ;
-          si:target &lt;http://mySubweb.com/profile&gt;
+        si:entry [
+          si:shape ex:profile#ProfileShape ;
+          si:range &lt;http://mySubweb.com/profile&gt;
         ], [
-          a si:Entry ;
-          si:bindByShape ex:movieReview#movieReviewShape ;
-          si:target "http://mySubweb.com/0/data/movie_review/.*"
+          si:shape ex:movieReview#movieReviewShape ;
+          si:range "http://mySubweb.com/0/data/movie_review/.*"
         ] , [
-          a si:Entry ;
-          si:bindByShape &lt;http://mySubweb.com/readingList#readingListShape&gt; ;
-          si:target &lt;http://mySubweb.com/0/data/personal_reading_list&gt;
-          si:target &lt;http://mySubweb.com/0/data/research/paper_list&gt;
-          si:target "http://mySubweb.com/0/data/reading_list/*"
+          si:shape &lt;http://mySubweb.com/readingList#readingListShape&gt; ;
+          si:range &lt;http://mySubweb.com/0/data/personal_reading_list&gt;
+          si:range &lt;http://mySubweb.com/0/data/research/paper_list&gt;
+          si:range "http://mySubweb.com/0/data/reading_list/*"
         ] ;
-        si:isComplete true .  
+        si:complete true .  
     </pre>
 
     <p>
       Furthermore, every set of triples within the subweb respecting a shape with a close world assumption associated
-      with a `si:bindByShape` MUST be inside a resource of the target annotated with the shape.
+      with a `si:shape` MUST be inside a resource of the target annotated with the shape.
       It is RECOMMENDED to use shapes with close-world assumptions.
       If shapes with open-world assumptions are used then, triples respecting the shape SHOULD be inside a resource of
       the target.
@@ -166,7 +237,7 @@
       closed shape. A resource MUST only be bound to a maximum of one shape.
     </p>
 
-    <pre class="query nohighlight">
+    <pre class="data">
       PREFIX ex: &lt;http://example.com/#&gt;
       PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
       PREFIX school: &lt;http://school.example/#&gt;
@@ -187,26 +258,25 @@
     <h2>Negative Entries</h2>
     <p>
       The shape index provides the ability to describe RDF data shapes that are not present within a subweb.
-      This is indicated using the `si:doesNotContain` property with a specific shape associated.
-      These shapes MUST adhere to a closed-world assumption, ensuring that no sets of triples within the entire subweb
+      This is indicated using the `si:excludes` property with a specific shape associated.
+      These shapes MUST adhere to a close-world assumption, ensuring that no sets of triples within the entire subweb
       validate against this shape.
       It is RECOMMENDED to use these entries alongside shape constraints in the index, particularly to specify when
       nested shapes are absent from the subweb.
     </p>
 
-    <pre class="query nohighlight">
+    <pre class="resultTurtle">
       &lt;http://mySubweb.com/index2&gt; a si:ShapeIndex ;
         si:subweb "http://mySubweb.com/1/data/.*/*" ;
-        si:hasEntry [
-          a si:Entry ;
-          si:bindByShape ex:profile#ProfileShape ;
-          si:target &lt;http://mySubweb.com/profile&gt;
+        si:entry [
+          si:shape ex:profile#ProfileShape ;
+          si:range &lt;http://mySubweb.com/profile&gt;
         ];
 
-        si:doesNotContain ex:plant#PlantShapes.
-        si:doesNotContain ex:car#CarShapes.
+        si:excludes ex:plant#PlantShapes.
+        si:excludes ex:car#CarShapes.
 
-        si:isComplete true .
+        si:complete true .
     </pre>
   </section>
 
@@ -227,7 +297,7 @@
     <p>
       Another RECOMMENDED approach is to advertise the location of the shape index in the HTTP header.
       This SHOULD be in the form
-    <pre class="query nohighlight">
+    <pre class="data">
         Link: <iri-of-the-shape-index>; rel="http://www.shapeindex.com#shapeIndexLocation".
       </pre>
 
@@ -252,7 +322,8 @@
     <h3>Search Space Optimization</h3>
     <p>
       The shape index shares some similarities with the Type Indexes [[TYPE-INDEX-SPEC]].
-      Data discovery techniques like the one presented by <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a> [[TAELMAN-2023]] can be
+      Data discovery techniques like the one presented by <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>
+      [[TAELMAN-2023]] can be
       employed with
       small adaptations.
       <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>'s technique involves pruning sources
@@ -269,7 +340,8 @@
       shapes to determine which sources to dereference, taking into account the subweb and the completeness of the
       index. This method has been shown to significantly reduce query execution time compared to the approach by
       <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>. However, it does not consider negative
-      entries and has not been as extensively evaluated as <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>'s method.
+      entries and has not been as extensively evaluated as <a data-cite="TAELMAN-2023#">Taelman and Verborgh</a>'s
+      method.
     </p>
   </section>
 
@@ -283,7 +355,7 @@
     <p>A Shape Index</p>
     <h4>Domain</h4>
     <h4>Range</h4>
-    <p>`si:subweb`, `si:complete`, `si:hasEntry`, `si:doesNotContain`</p>
+    <p>`si:subweb`, `si:complete`, `si:entry`, `si:excludes`</p>
 
     <h3>`si:shapeIndexLocation`</h3>
     <p>
@@ -319,15 +391,21 @@
     A shape index entry mapping a shape of resources to an RDF shape.
     <h4>Domain</h4>
     <h4>Range</h4>
-    <p>`si:bindByShape`, `si:target`</p>
+    <p>`si:shape`, `si:range`</p>
 
-    <h3>`si:bindByShape`</h3>
-    The shape binding a `si:target`.
+    <h3>`si:shape`</h3>
+    The shape binding a `si:range`.
     <h4>Domain</h4>
     <p>`si:Entry`</p>
     <h4>Range</h4>
 
-    <h3>`si:doesNotContain`</h3>
+    <h3>`si:entry`</h3>
+    The target of the index must respect the shape defined with the associated `si:shape` in the `si:Entry`.
+    <h4>Domain</h4>
+    <p>`si:Entry`</p>
+    <h4>Range</h4>
+
+    <h3>`si:excludes`</h3>
     Indicate that a shape validate data not contain in the subweb of a shape index.
     <h4>Domain</h4>
     <p>`si:ShapeIndex`</p>

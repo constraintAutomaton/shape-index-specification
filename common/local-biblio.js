@@ -25,6 +25,7 @@ var localBibliography = {
   },
   "TYPE-INDEX-SPEC": {
     "authors": [
+        "Timea Turdean",
         "Jeff Zucker",
         "Virginia Balseiro",
         "Sarven Capadisli",
@@ -35,6 +36,17 @@ var localBibliography = {
     "rawDate": "2023-03-13",
     "status": "ED",
     "publisher": "W3C Solid Community Group"
+  },
+  "SHAPE-TREES-SPEC": {
+    "authors": [
+        "Eric Prud'hommeaux",
+        "Justin Bingham",
+    ],
+    "href": "https://shapetrees.org/TR/specification/",
+    "title": "Shape Trees Specification",
+    "rawDate": "2021-12-03",
+    "status": "ED",
+    "publisher": "W3C"
   },
   "TAELMAN-2023": {
     "authors": [
@@ -60,4 +72,28 @@ var localBibliography = {
     "status": "Proceeding",
     "publisher": "Alberto Mendelzon International Workshop on Foundations of Data Management (AMW 2024)"
   },
+  "SOLID-SPEC": {
+    "authors": [
+        "Sarven Capadisli",
+        "Tim Berners-Lee",
+        "Kjetil Kjernsmo",
+    ],
+    "href": "https://solidproject.org/TR/protocol",
+    "title": "Solid Protocol",
+    "rawDate": "2024-05-12",
+    "status": "CG-DRAFT",
+    "publisher": "Solid Community Group"
+  },
+  "LDP-SPEC": {
+    "authors": [
+        "Steve Speicher",
+        "John Arwe",
+        "Ashok Malhotra",
+    ],
+    "href": "https://www.w3.org/TR/ldp",
+    "title": "Linked Data Platform 1.0",
+    "rawDate": "2015-02-26",
+    "status": "REC",
+    "publisher": "W3C"
+  }
 };
