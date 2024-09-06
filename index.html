@@ -197,7 +197,7 @@
     <p>
       The core feature of the shape index is its mappings.
       A shape index can have multiple entries identified by the term`si:entry`.
-      Each entry includes a target set identified by the term `si:range`.
+      Each entry includes a target set identified by the term `si:subweb`.
       Target sets are bound by a shape identified by the term `si:shape`.
       The target is a set of RDF resources where every triple within them MUST be validated by the shape linked to the
       target through a `si:shape` annotation.
@@ -209,15 +209,15 @@
         si:subweb "http://mySubweb.com/0/data/.*/*" ;
         si:entry [
           si:shape ex:profile#ProfileShape ;
-          si:range &lt;http://mySubweb.com/profile&gt;
+          si:subweb &lt;http://mySubweb.com/profile&gt;
         ], [
           si:shape ex:movieReview#movieReviewShape ;
-          si:range "http://mySubweb.com/0/data/movie_review/.*"
+          si:subweb "http://mySubweb.com/0/data/movie_review/.*"
         ] , [
           si:shape &lt;http://mySubweb.com/readingList#readingListShape&gt; ;
-          si:range &lt;http://mySubweb.com/0/data/personal_reading_list&gt;
-          si:range &lt;http://mySubweb.com/0/data/research/paper_list&gt;
-          si:range "http://mySubweb.com/0/data/reading_list/*"
+          si:subweb &lt;http://mySubweb.com/0/data/personal_reading_list&gt;
+          si:subweb &lt;http://mySubweb.com/0/data/research/paper_list&gt;
+          si:subweb "http://mySubweb.com/0/data/reading_list/*"
         ] ;
         si:complete true .  
     </pre>
@@ -273,19 +273,19 @@
         si:subweb "http://mySubweb.com/.*" ;
         si:entry [
           si:shape ex:profile#ProfileShape ;
-          si:range &lt;http://mySubweb.com/profile&gt;
+          si:subweb &lt;http://mySubweb.com/profile&gt;
         ];
 
         si:entry [
           si:shape ex:plant#PlantShapes;
           si:excludes true ;
-          si:range si:indexSubweb;
+          si:subweb si:indexSubweb;
         ];
 
         si:entry [
           si:shape ex:plant#CarShapes;
           si:excludes true ;
-          si:range &lt;http://mySubweb.com/toy&gt;
+          si:subweb &lt;http://mySubweb.com/toy&gt;
         ];
     </pre>
   </section>
@@ -384,9 +384,9 @@
       in a tree structure.
     </p>
     <h4>Domain</h4>
-    <p>`si:ShapeIndex`</p>
+    <p>`si:ShapeIndex`, `si:Entry`</p>
     <h4>Range</h4>
-    <p>`xsd:string`</p>
+    <p>`xsd:string`, `IRI`</p>
 
     <h3>`si:complete`</h3>
     <p>
@@ -401,30 +401,26 @@
     A shape index entry mapping a shape of resources to an RDF shape.
     <h4>Domain</h4>
     <h4>Range</h4>
-    <p>`si:shape`, `si:range`</p>
+    <p>`si:shape`, `si:subweb`</p>
 
     <h3>`si:shape`</h3>
-    The shape binding a `si:range`.
+    The shape binding a `si:subweb`.
     <h4>Domain</h4>
     <p>`si:Entry`</p>
     <h4>Range</h4>
-
-    <h3>`si:range`</h3>
-    The target of the index must respect the shape defined with the associated `si:shape` in the `si:Entry`.
-    <h4>Domain</h4>
-    <p>`si:Entry`</p>
-    <h4>Range</h4>
+    <p>`IRI`</p>
 
     <h3>`si:excludes`</h3>
-    Indicate that a shape validate data not contain in the subweb of a shape index.
+    Indicate that the `si:Entry` exclude the shape from the target subweb
     <h4>Domain</h4>
     <p>`si:ShapeIndex`</p>
     <h4>Range</h4>
+    `xsd:boolean`
 
     <h3>`si:indexSubweb`</h3>
     Indicate that the target is the whole subweb of the current shape index instance
     <h4>Domain</h4>
-    <p>`si:range`</p>
+    <p>`si:subweb`</p>
     <h4>Range</h4>
   </section>
 
