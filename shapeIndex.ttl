@@ -1,0 +1,99 @@
+@base <> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<#ShapeIndex> a owl:Class .
+    rdfs:label "Shape index"@en ;    
+    rdfs:comment """The section of the web that the shape index caracterizes.
+     It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
+      To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be in a tree structure."""@en ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            [ a owl:Restriction ;
+              owl:onProperty <#subweb> ;
+              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+            ]
+            [ a owl:Restriction ;
+              owl:onProperty <#complete> ;
+              owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+            ]
+            [ a owl:Restriction ;
+              owl:onProperty <#entry> ;
+              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+            ]
+        )                             
+    ] .
+
+<#Entry> a owl:Class .
+    rdfs:label "Entry"@en ;
+    rdfs:comment "A shape index entry mapping a shape of resources to an RDF shape."@en ; 
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            [ a owl:Restriction ;
+              owl:onProperty <#subweb> ;
+              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+            ]
+            [ a owl:Restriction ;
+              owl:onProperty <#excludes> ;
+              owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+            ]
+            [ a owl:Restriction ;
+              owl:onProperty <#shape> ;
+              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger .
+            ]
+        )                             
+    ] .
+
+<#entry> a owl:ObjectProperty ;
+    rdfs:label "Has an entry"@en ;
+    rdfs:comment "Lead to a `si:Entry` in the object position."@en ;
+    rdfs:domain <#ShapeIndex>;
+    rdfs:range <#Entry> 
+
+<#shapeIndexLocation> a  owl:ObjectProperty ;
+    rdfs:label "A shape index is located at"@en ;
+    rdfs:comment "Indicate that a shape index is located at the IRI at the object position of a triple using this term at the predicate position."@en ;
+    rdfs:range <#ShapeIndex> .
+
+<#subweb> a  owl:ObjectProperty ;
+    rdfs:label "Is within this subweb"@en ;
+    rdfs:comment """The section of the web that the shape index caracterizes.
+      It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
+      To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
+      in a tree structure."""@en ;
+    rdfs:domain <#ShapeIndex>;
+    rdfs:domain <#Entry>;
+    rdfs:range [
+        a owl:Class ;
+        owl:unionOf ( xsd:string rdfs:Resource )
+    ] .
+
+<#complete> a  owl:ObjectProperty ;
+    rdfs:label "Is the shape index complete"@en ;
+    rdfs:comment "A flag indicating if a shape index is complete, thus, every resource inside the subweb is describe by the index."@en;
+    rdfs:domain <#ShapeIndex>;
+    rdfs:range xsd:boolean .
+
+<#shape> a  owl:ObjectProperty ;
+    rdfs:label "Is validated by the shape"@en ;
+    rdfs:comment "The shape binding a `si:subweb`."@en;
+    rdfs:domain <#Entry> ;
+    rdfs:range rdfs:Resource .
+
+<#excludes> a  owl:ObjectProperty ;
+    rdfs:label "Is the shape excluded from the subweb"@en ;
+    rdfs:comment "Indicate that the `si:Entry` exclude the shape from the target subweb."@en;
+    rdfs:domain <#ShapeIndex>;
+    rdfs:range xsd:boolean .
+
+<#indexSubweb> a <#subweb> ;
+    rdfs:label "Subweb of the shape index"@en ;
+    rdfs:comment "Indicate that the subweb of the entry is the whole subweb of the shape index"@en;
+
+<http://www.w3.org/ns/solid/terms#instanceContainer> a <#subweb> .
