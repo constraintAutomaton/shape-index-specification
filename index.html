@@ -173,13 +173,20 @@
       what is excluded from a target or the entire subweb.
     </p>
 
-    <img src="./figure/schema.drawio.svg" alt="schema of the vocabulary of the shape index" width="100%" />
+    <p>
+      A concrete example using a shape index is the organization of personal data.
+      A data provider could have data about themselves, movie reviews, multiple reading lists, and unorganized
+      experimental data.
+    </p>
 
 
   </section>
 
   <section id="shape-index">
     <h2>Shape Index</h2>
+
+    <img src="./figure/schema.drawio.svg" alt="schema of the vocabulary of the shape index" width="100%" />
+
     <p>
       A shape index is a scoped mapping between sets of RDF resources and RDF data shapes. In this context, scope refers
       to the index being defined by a pair: the subweb (`si:subweb`) and the completeness of the index (`si:complete`).
@@ -321,9 +328,8 @@
     <h2>How to Specify a Shape Language?</h2>
 
     <p>
-      By default it MUST be considered that the shape from a `si:shape` is express using the ShEx [[SHEX-SPEC]]
-      language.
-      However it is possible to specify the shape language using HTTP headers, by specifying a profile.
+      The shape resource MUST advertise its language using an HTTP header content type profile. The RECOMMENDED
+      languages are ShEx [[SHEX-SPEC]] and SHACL [[SHACL]].
       See the example below.
     </p>
 
@@ -379,24 +385,17 @@
     <h2>Vocabulary</h2>
     <p>
       This section present the vocabulary to define a Shape Index.
+      The onthology is defined in RDF at the <a href="./shapeIndex.ttl" target="_blank">following document</a>.
     </p>
 
     <h3>`si:ShapeIndex`</h3>
     <p>A Shape Index</p>
-    <h4>Domain</h4>
-    <p>`undefined`</p>
-    <h4>Range</h4>
-    <p>`si:subweb`, `si:complete`, `si:entry`, `si:excludes`</p>
 
     <h3>`si:shapeIndexLocation`</h3>
     <p>
       Indicate that a shape index is located at the IRI at the object position of a triple using this term at the
       predicate position.
     </p>
-    <h4>Domain</h4>
-    <p>`undefined`</p>
-    <h4>Range</h4>
-    <p>`si:ShapeIndex`</p>
 
     <h3>`si:subweb`</h3>
     <p>
@@ -405,47 +404,25 @@
       To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
       in a tree structure.
     </p>
-    <h4>Domain</h4>
-    <p>`si:ShapeIndex`, `si:Entry`</p>
-    <h4>Range</h4>
-    <p>`xsd:string`, `IRI`</p>
 
     <h3>`si:complete`</h3>
-    <p>
-      A flag indicating if a shape index is complete, thus, every resource inside the subweb is describe by the index.
+    <p>A flag indicating if a shape index is complete, thus, every resource inside the subweb is describe by the index.
     </p>
-    <h4>Domain</h4>
-    <p>`si:ShapeIndex`</p>
-    <h4>Range</h4>
-    <p>`xsd:boolean`</p>
 
     <h3>`si:Entry`</h3>
-    A shape index entry mapping a shape of resources to an RDF shape.
-    <h4>Domain</h4>
-    <p>`undefined`</p>
-    <h4>Range</h4>
-    <p>`si:shape`, `si:subweb`</p>
+    <p>A shape index entry mapping a shape of resources to an RDF shape.</p>
+
+    <h3>`si:entry`</h3>
+    <p>Lead to a `si:Entry` in the object position.</p>
 
     <h3>`si:shape`</h3>
-    The shape binding a `si:subweb`.
-    <h4>Domain</h4>
-    <p>`si:Entry`</p>
-    <h4>Range</h4>
-    <p>`IRI`</p>
+    <p>The shape binding a `si:subweb`.</p>
 
     <h3>`si:excludes`</h3>
-    Indicate that the `si:Entry` exclude the shape from the target subweb
-    <h4>Domain</h4>
-    <p>`si:ShapeIndex`</p>
-    <h4>Range</h4>
-    `xsd:boolean`
+    <p>Indicate that the `si:Entry` exclude the shape from the target subweb.</p>
 
     <h3>`si:indexSubweb`</h3>
-    Indicate that the target is the whole subweb of the current shape index instance
-    <h4>Domain</h4>
-    <p>`si:subweb`</p>
-    <h4>Range</h4>
-    `IRI`, `xsd:string`
+    <p>Indicate that the target is the whole subweb of the current shape index instance.</p>
   </section>
 
   <section id="index"></section>
