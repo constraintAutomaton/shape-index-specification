@@ -4,7 +4,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 
-<#ShapeIndex> a owl:Class .
+<#ShapeIndex> a owl:Class ;
     rdfs:label "Shape index"@en ;    
     rdfs:comment """The section of the web that the shape index caracterizes.
      It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
@@ -14,21 +14,21 @@
         owl:intersectionOf (
             [ a owl:Restriction ;
               owl:onProperty <#subweb> ;
-              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger 
             ]
             [ a owl:Restriction ;
               owl:onProperty <#complete> ;
               owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger 
             ]
             [ a owl:Restriction ;
               owl:onProperty <#entry> ;
-              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger 
             ]
         )                             
     ] .
 
-<#Entry> a owl:Class .
+<#Entry> a owl:Class ;
     rdfs:label "Entry"@en ;
     rdfs:comment "A shape index entry mapping a shape of resources to an RDF shape."@en ; 
     owl:equivalentClass [
@@ -36,16 +36,16 @@
         owl:intersectionOf (
             [ a owl:Restriction ;
               owl:onProperty <#subweb> ;
-              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger
             ]
             [ a owl:Restriction ;
               owl:onProperty <#excludes> ;
               owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger
             ]
             [ a owl:Restriction ;
               owl:onProperty <#shape> ;
-              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger .
+              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
             ]
         )                             
     ] .
@@ -54,9 +54,9 @@
     rdfs:label "Has an entry"@en ;
     rdfs:comment "Lead to a `si:Entry` in the object position."@en ;
     rdfs:domain <#ShapeIndex>;
-    rdfs:range <#Entry> 
+    rdfs:range <#Entry> .
 
-<#shapeIndexLocation> a  owl:ObjectProperty ;
+<#shapeIndexLocation> a owl:ObjectProperty ;
     rdfs:label "A shape index is located at"@en ;
     rdfs:comment "Indicate that a shape index is located at the IRI at the object position of a triple using this term at the predicate position."@en ;
     rdfs:range <#ShapeIndex> .
@@ -94,6 +94,8 @@
 
 <#indexSubweb> a <#subweb> ;
     rdfs:label "Subweb of the shape index"@en ;
-    rdfs:comment "Indicate that the subweb of the entry is the whole subweb of the shape index"@en;
+    rdfs:comment "Indicate that the subweb of the entry is the whole subweb of the shape index"@en.
 
-<http://www.w3.org/ns/solid/terms#instanceContainer> a <#subweb> .
+<http://www.w3.org/ns/solid/terms#instanceContainer> a <#subweb> ;
+  rdfs:comment """When a Solid container is used as a subweb, the resources are distributed following the LDP specification.
+  See the Solid specification for more information https://solidproject.org/TR/protocol"""@en.
