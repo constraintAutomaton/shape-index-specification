@@ -97,5 +97,6 @@
     rdfs:comment "Indicate that the subweb of the entry is the whole subweb of the shape index"@en.
 
 <http://www.w3.org/ns/solid/terms#instanceContainer> a <#subweb> ;
-  rdfs:comment """When a Solid container is used as a subweb, the resources are distributed following the LDP specification.
-  See the Solid specification for more information https://solidproject.org/TR/protocol"""@en.
+  rdfs:comment """When a Solid container is used as a subweb, the resources are distributed following the LDP Specification.
+  See the Solid Specification for more information https://solidproject.org/TR/protocol and 
+  the Type Index Specification https://solid.github.io/type-indexes/"""@en.
