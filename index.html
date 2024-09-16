@@ -179,6 +179,7 @@
       experimental data.
     </p>
 
+    <img src="./figure/example.drawio.svg" alt="Example schema of a shape index" width="80%" />
 
   </section>
 
@@ -403,6 +404,12 @@
       It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
       To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
       in a tree structure.
+    </p>
+    <p>
+      The term `<http: //www.w3.org/ns/solid/terms#instanceContainer>` can be used as a subweb term.
+        In that case, the IRI set is characterized by the IRI following the definition of containers
+        from the Solid Specification [[SOLID-SPEC]] with the same usage as the mapping in the type index specification
+        [[TYPE-INDEX-SPEC]].
     </p>
 
     <h3>`si:complete`</h3>
