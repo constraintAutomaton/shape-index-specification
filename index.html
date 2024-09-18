@@ -174,19 +174,19 @@
     </p>
 
     <p>
-      A concrete example using a shape index is the organization of personal data.
+      A concrete example using a shape index presented below is the organization of personal data.
       A data provider could have data about themselves, movie reviews, multiple reading lists, and unorganized
       experimental data.
     </p>
 
-    <img src="./figure/example.drawio.svg" alt="Example schema of a shape index" width="80%" />
+    <img src="./figure/example.drawio.svg" alt="Example schema of a shape index" width="65%" height="auto" />
 
   </section>
 
   <section id="shape-index">
     <h2>Shape Index</h2>
 
-    <img src="./figure/schema.drawio.svg" alt="schema of the vocabulary of the shape index" width="100%" />
+    <img src="./figure/schema_v2.drawio.svg" alt="schema of the vocabulary of the shape index" width="100%" />
 
     <p>
       A shape index is a scoped mapping between sets of RDF resources and RDF data shapes. In this context, scope refers
@@ -211,7 +211,7 @@
       of the shape index's subweb, and the target subwebs MUST NOT overlap.
       Each target set is associated with a shape, identified by the term si:shape. The target is a set of RDF resources,
       and every triple within these resources MUST conform to the shape linked to the target through the si:shape
-      annotation.
+      annotation. The example below present an example of a shape index.
     </p>
 
     <pre class="resultTurtle">
@@ -222,10 +222,10 @@
           si:shape ex:profile#ProfileShape ;
           si:subweb &lt;http://mySubweb.com/profile&gt;
         ], [
-          si:shape ex:movieReview#movieReviewShape ;
+          si:shape ex:movieReview#MovieReviewShape ;
           si:subweb "http://mySubweb.com/0/data/movie_review/.*"
         ] , [
-          si:shape &lt;http://mySubweb.com/readingList#readingListShape&gt; ;
+          si:shape &lt;http://mySubweb.com/readingList#ReadingListShape&gt; ;
           si:subweb &lt;http://mySubweb.com/0/data/personal_reading_list&gt;
           si:subweb &lt;http://mySubweb.com/0/data/research/paper_list&gt;
           si:subweb "http://mySubweb.com/0/data/reading_list/*"
@@ -256,13 +256,16 @@
       PREFIX school: &lt;http://school.example/#&gt;
       PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 
-      ex:Human {
+      http://mySubweb.com/readingList#List {
         foaf:name xsd:string ;
+        ex:item IRI *;
       }
 
-      ex:Citizen {
+      http://mySubweb.com/readingList#ReadingListShape {
         foaf:name xsd:string ;
-        ex:socialSecurityNumber xsd:string ;
+        ex:item IRI *;
+        ex:isbn IRI;
+        ex:rank xsd:number;
       }
     </pre>
   </section>
