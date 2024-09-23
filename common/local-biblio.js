@@ -95,5 +95,18 @@ var localBibliography = {
     "rawDate": "2015-02-26",
     "status": "REC",
     "publisher": "W3C"
+  },
+  "RFC-6570":{
+    "authors": [
+        "Roy T. Fielding",
+        "Mark Nottingham",
+        "David Orchar",
+        "Joe Gregorio",
+        "Marc Hadley"
+    ],
+    "href": "https://datatracker.ietf.org/doc/html/rfc6570",
+    "title": "URI Template",
+    "rawDate": "2012-03-01",
+    "publisher": "Internet Engineering Task Force (IETF)"
   }
 };

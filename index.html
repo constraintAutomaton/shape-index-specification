@@ -80,7 +80,7 @@
     <h2>Terminology</h2>
     <dl>
       <dt>Subweb</dt>
-      <dd>A subset of the web, defined by a set of IRIs or IRI patterns (IRI patterns are considered as sets of IRI).
+      <dd>A subset of the web, defined by a set of IRIs or URI template [[RFC-6570]] (URI template are considered as sets of IRI).
       </dd>
 
       <dt>RDF Data Shape</dt>
@@ -109,6 +109,11 @@
     <bold>
       This section is non-normative
     </bold>
+    <figure>
+      <img src="./figure/shape_index.drawio.svg" alt="A schematic representation of a shape index" width="65%"
+        height="auto" />
+      <figcaption>A schematic representation of a shape index</figcaption>
+    </figure>
 
     <p>
       When publishing linked data, providers face many concerns, ranging from data model and ontology design to the
@@ -118,18 +123,19 @@
     </p>
 
     <p>
-      The Solid specification [[SOLID-SPEC]], with its concept of storage units, often referred to as pods
-      [[TAELMAN-2023]], and its use of the LDP specification [[LDP-SPEC]], provides a structured approach to
-      distributing linked data. It does this by delimiting the domain of a dataset’s publication through a
+      The Solid specification [[SOLID-SPEC]], with its concept of storage units (often referred to as pods
+      [[TAELMAN-2023]]), and its use of the LDP specification [[LDP-SPEC]], provides a structured approach to
+      distributing linked data. The approach consists of delimiting the domain of a dataset’s publication through a
       tree-structured URL pattern.
 
-      Such a structure allows query engines to gain some information about the subweb of publication from a specific
-      data publisher. However, it provides little information about the
-      dataset's content. This content information could be particularly useful in traversal queries, helping the query
-      engine infer whether the content of specific documents is relevant to the query. Additionally, it such information
-      can help in making
-      strategic decisions for query planning in the context of triples from specific documents or the domain of the data
-      provider.
+      Such a structure allows query engines to gain some information about the limit of the subweb of publication of
+      specific
+      data publishers. However, it provides little information about the
+      dataset's content. The content information could be particularly useful in traversal queries by helping query
+      engines to infer whether the content of specific documents is relevant to the query. Additionally, such
+      information
+      could help make
+      strategic decisions for query planning considering the provenance of data.
     </p>
     <p>
 
@@ -169,33 +175,26 @@
 
       Like Shape Trees, the Shape Index maps RDF data shapes to resources. However, it introduces an explicit definition
       of the subwebs in which the Shape Index operates. It also provides information on whether the index describes each
-      resource within the subweb, allows for disjointed targets and subwebs, and supports negative entries to indicate
+      resource within the subweb, allows for disjointed targets and subwebs. The shape index also supports negative entries to indicate
       what is excluded from a target or the entire subweb.
     </p>
-
-    <p>
-      A concrete example using a shape index presented below is the organization of personal data.
-      A data provider could have data about themselves, movie reviews, multiple reading lists, and unorganized
-      experimental data.
-    </p>
-
-    <img src="./figure/example.drawio.svg" alt="Example schema of a shape index" width="65%" height="auto" />
 
   </section>
 
   <section id="shape-index">
     <h2>Shape Index</h2>
-
-    <img src="./figure/schema_v2.drawio.svg" alt="schema of the vocabulary of the shape index" width="100%" />
-
+    <figure>
+      <img src="./figure/schema_v2.drawio.svg" alt="schema of the vocabulary of the shape index" width="100%" />
+      <figcaption>A UML-like representation of the shape index definition</figcaption>
+    </figure>
     <p>
       A shape index is a scoped mapping between sets of RDF resources and RDF data shapes. In this context, scope refers
       to the index being defined by a pair: the subweb (`si:subweb`) and the completeness of the index (`si:complete`).
       A
-      subweb is a set of IRIs or IRI patterns managed by the data provider, while the completeness of a shape index
+      subweb is a set of IRIs or URI template managed by the data provider, while the completeness of a shape index
       indicates whether every resource in the subweb is associated with a shape.
       To create a disjoint subweb, a data publisher MUST use the predicate si:subweb multiple times, which MUST be
-      interpreted as a union of IRI sets (with an IRI pattern already representing a set of IRIs).
+      interpreted as a union of IRI sets (with an URI template already representing a set of IRIs).
       This scope characterization of the index is beneficial for two reasons. First, query optimizations related to the
       shape index are local, so it is helpful for query engines to know which subwebs are affected when performing
       traversal queries. Second, it allows data providers the flexibility to avoid describing every resource in the
@@ -207,10 +206,10 @@
 
     <p>
       The core feature of the shape index is its mappings. A shape index can have multiple entries, each identified by
-      the term si:entry. Every entry includes a target set, identified by the term si:subweb. A target MUST be a subset
+      the term `si:entry`. Every entry includes a target set, identified by the term `si:subweb`. A target MUST be a subset
       of the shape index's subweb, and the target subwebs MUST NOT overlap.
-      Each target set is associated with a shape, identified by the term si:shape. The target is a set of RDF resources,
-      and every triple within these resources MUST conform to the shape linked to the target through the si:shape
+      Each target set is associated with a shape, identified by the term `si:shape`. The target is a set of RDF resources,
+      and every triple within these resources MUST conform to the shape linked to the target through the `si:shape`
       annotation. The example below present an example of a shape index.
     </p>
 
@@ -244,7 +243,7 @@
     <p>
       When shapes nested within each other are used to bind targets (see the example below and notice that the shapes
       are
-      open), a set of triples conforming to the most restrictive shape (e.g., `ex:Citizen` in the example) SHOULD be
+      open), a set of triples conforming to the most restrictive shape (e.g., "http://mySubweb.com/readingList#ReadingListShape" in the example) SHOULD be
       located within the resources of that target. In a similar scenario with closed shapes, the set of triples MUST be
       located in the target of the most restrictive shape. If a set of triples can be validated by both an open and a
       closed shape, the triples MUST be located in the target of the closed shape.
@@ -274,12 +273,10 @@
     <h2>Negative Entries</h2>
     <p>
       The shape index allows for describing RDF data shapes that are not present within a subweb. This is indicated
-      using the si:excludes property within a si:Entry. Shapes specified in this way MUST adhere to a closed-world
+      using the `si:excludes` property within a `si:Entry`. Shapes specified in this way MUST adhere to a closed-world
       assumption, ensuring that no sets of triples within the subweb target validate against these shapes. It is
       RECOMMENDED to use these exclusions alongside shape constraints in the index, particularly to specify when nested
       shapes are absent from the subweb.
-      A target (`si:subweb`) can use `si:indexSubweb` to indicate that the triples respecting the shape are absent from
-      the whole subweb.
     </p>
 
     <pre class="resultTurtle">
@@ -293,7 +290,7 @@
         si:entry [
           si:shape ex:plant#PlantShapes;
           si:excludes true ;
-          si:subweb si:indexSubweb;
+          si:subweb "http://mySubweb.com/.*";
         ];
 
         si:entry [
@@ -308,14 +305,13 @@
     <h2>How to Discover a Shape Index</h2>
     <p>
       The discovery of the shape index is left to the data provider.
-      However, two approaches are RECOMMENDED.
+      However, one approache is RECOMMENDED.
     </p>
 
     <p>
       The data provider can use the predicate`si:shapeIndexLocation` with as an object the IRI of the shape index.
       This triple can be placed at convenient locations in the data provider subweb.
-      Examples of such placements are at the root, at the location where other dataset information is provided, or in
-      every file of the subweb.
+      It is RECOMMENDED to place the triple at every file inside of the subweb, to facilitate the discovery of the shape index.
     </p>
     <!--
     <p>
@@ -405,7 +401,7 @@
     <h3>`si:subweb`</h3>
     <p>
       The section of the web that the shape index caracterizes.
-      It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
+      It can be a single IRI or URI template in the form of a string or a set of IRI and/or string of URI template.
       To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
       in a tree structure.
     </p>
@@ -431,9 +427,6 @@
 
     <h3>`si:excludes`</h3>
     <p>Indicate that the `si:Entry` exclude the shape from the target subweb.</p>
-
-    <h3>`si:indexSubweb`</h3>
-    <p>Indicate that the target is the whole subweb of the current shape index instance.</p>
   </section>
 
   <section id="index"></section>

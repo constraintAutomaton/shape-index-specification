@@ -64,7 +64,7 @@
 <#subweb> a  owl:ObjectProperty ;
     rdfs:label "Is within this subweb"@en ;
     rdfs:comment """The section of the web that the shape index caracterizes.
-      It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
+      It can be a single IRI or URI template in the form of a string or a set of IRI and/or string of URI template.
       To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
       in a tree structure."""@en ;
     rdfs:domain <#ShapeIndex>;
@@ -91,10 +91,6 @@
     rdfs:comment "Indicate that the `si:Entry` exclude the shape from the target subweb."@en;
     rdfs:domain <#ShapeIndex>;
     rdfs:range xsd:boolean .
-
-<#indexSubweb> a <#subweb> ;
-    rdfs:label "Subweb of the shape index"@en ;
-    rdfs:comment "Indicate that the subweb of the entry is the whole subweb of the shape index"@en.
 
 <http://www.w3.org/ns/solid/terms#instanceContainer> a <#subweb> ;
   rdfs:comment """When a Solid container is used as a subweb, the resources are distributed following the LDP Specification.
