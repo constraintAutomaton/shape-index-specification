@@ -96,7 +96,7 @@ var localBibliography = {
     "status": "REC",
     "publisher": "W3C"
   },
-  "RFC-6570":{
+  "RFC6570":{
     "authors": [
         "Roy T. Fielding",
         "Mark Nottingham",
