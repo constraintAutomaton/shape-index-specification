@@ -329,15 +329,15 @@
     <h2>How to Specify a Shape Language?</h2>
 
     <p>
-      The shape resource MUST advertise its language using an HTTP header content type profile. Current popular language
-      are ShEx [[SHEX-SPEC]] and SHACL [[SHACL]], but this specification does NOT restrict the shape language used.
+      The shape resource MUST advertise its language using an HTTP header content type profile.
+      The language of the shape MUST be ShEx [[SHEX-SPEC]] (http://www.w3.org/ns/shex) or SHACL [[SHACL]] (http://www.w3.org/ns/shacl).
       See the example below.
     </p>
 
     <pre class="data">
       GET /a_shape.ttl HTTP/1.1
       Host: example.com
-      Accept: text/turtle;profile=http://www.w3.org/ns/shacl
+      Accept: text/turtle;profile=http://www.w3.org/ns/shex
     </pre>
   </section>
 
