@@ -2,7 +2,7 @@
 
 The shape index specification repository.
 An online version is available at [this hypermedia link](https://constraintautomaton.github.io/shape-index-specification/).
-The specification is written in "pure" HTML, Javascript, and CSS thus does not require building.
+The specification is written in "pure" HTML, Javascript, and CSS, so it does not require building. The `./index.html` contains all the documentation.
 Issues about the website or proposition of improvement can be made via the [github issues](https://github.com/constraintAutomaton/shape-index-specification/issues).
 
 # Abstract
