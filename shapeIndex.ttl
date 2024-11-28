@@ -76,7 +76,7 @@
 
 <#complete> a  owl:ObjectProperty ;
     rdfs:label "Is the shape index complete"@en ;
-    rdfs:comment "A flag indicating if a shape index is complete, thus, every resource inside the subweb is describe by the index."@en;
+    rdfs:comment "A flag indicating if a shape index is complete, thus, shape binding is a closed shape."@en;
     rdfs:domain <#ShapeIndex>;
     rdfs:range xsd:boolean .
 

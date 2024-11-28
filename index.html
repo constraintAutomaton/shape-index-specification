@@ -90,7 +90,7 @@
       </dd>
 
       <dt>Complete Index</dt>
-      <dd>An index that fully describes every resource within its associated subweb.</dd>
+      <dd>An index that only use close shapes to describe its domain.</dd>
 
       <dt>Open shape</dt>
       <dd>A shape with an open world assumption, meaning that an RDF graph respecting the shape can be a subset of the
@@ -174,9 +174,9 @@
       optional, richer, and higher-cost statistical information about data sources for more advanced query optimization.
 
       Like Shape Trees, the Shape Index maps RDF data shapes to resources. However, it introduces an explicit definition
-      of the subwebs in which the Shape Index operates. It also provides information on whether the index describes each
-      resource within the subweb, allows for disjointed targets and subwebs. The shape index also supports negative entries to indicate
-      what is excluded from a target or the entire subweb.
+      of the subwebs in which the Shape Index operates.
+      It also allows for disjointed targets and subwebs. 
+      The shape index also supports negative entries to indicate what is excluded from a target or the entire subweb.
     </p>
 
   </section>
@@ -192,16 +192,13 @@
       to the index being defined by a pair: the subweb (`si:subweb`) and the completeness of the index (`si:complete`).
       A
       subweb is a set of IRIs or URI template managed by the data provider, while the completeness of a shape index
-      indicates whether every resource in the subweb is associated with a shape.
+      indicates whether every shape of the index are closed.
       To create a disjoint subweb, a data publisher MUST use the predicate si:subweb multiple times, which MUST be
       interpreted as a union of IRI sets (with an URI template already representing a set of IRIs).
-      This scope characterization of the index is beneficial for two reasons. First, query optimizations related to the
+      This scope characterization of the index is beneficial because query optimizations related to the
       shape index are local, so it is helpful for query engines to know which subwebs are affected when performing
-      traversal queries. Second, it allows data providers the flexibility to avoid describing every resource in the
-      subweb, which can reduce the computational cost of maintaining the mapping or allow more freedom in their data
-      publication approach.
-      While it is OPTIONAL to describe every resource in a subweb within a shape index, it is RECOMMENDED, as this
-      provides better opportunities for query optimization.
+      traversal queries.
+      A data provider MUST describe every resource in a subweb within a shape index.
     </p>
 
     <p>
@@ -325,6 +322,19 @@
   -->
   </section>
 
+  <section id="entry-discovery">
+    <h2>Entry discovery</h2>
+
+    Entries (`si:entry`) can be defined abstractly using URI template.
+    Thus for the  discovery of the concrete IRI a data provider SHOULD (and it is highly RECOMMENDED) provide a mean for a query engine to find the concrete IRI of the set.
+    
+    when derefering the longest fixed path of an URI template, the server SHOULD provide a ressource providing every possible concrete IRI until another 
+
+    The first one, is to at the root of URI template provide a tree structure (like a file server) of every resource hos
+    
+    
+  </section>
+
   <section id="shape-dereferencing">
     <h2>How to Specify a Shape Language?</h2>
 
@@ -413,7 +423,7 @@
     </p>
 
     <h3>`si:complete`</h3>
-    <p>A flag indicating if a shape index is complete, thus, every resource inside the subweb is describe by the index.
+    <p>A flag indicating if a shape index is complete, thus, shape binding is a closed shape.
     </p>
 
     <h3>`si:Entry`</h3>
