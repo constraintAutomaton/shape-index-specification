@@ -80,7 +80,8 @@
     <h2>Terminology</h2>
     <dl>
       <dt>Subweb</dt>
-      <dd>A subset of the web, defined by a set of IRIs or URI template [[RFC6570]] (URI template are considered as sets of IRI).
+      <dd>A subset of the web, defined by a set of IRIs or URI template [[RFC6570]] (URI template are considered as sets
+        of IRI).
       </dd>
 
       <dt>RDF Data Shape</dt>
@@ -175,7 +176,7 @@
 
       Like Shape Trees, the Shape Index maps RDF data shapes to resources. However, it introduces an explicit definition
       of the subwebs in which the Shape Index operates.
-      It also allows for disjointed targets and subwebs. 
+      It also allows for disjointed targets and subwebs.
       The shape index also supports negative entries to indicate what is excluded from a target or the entire subweb.
     </p>
 
@@ -189,10 +190,9 @@
     </figure>
     <p>
       A shape index is a scoped mapping between sets of RDF resources and RDF data shapes. In this context, scope refers
-      to the index being defined by a pair: the subweb (`si:subweb`) and the completeness of the index (`si:complete`).
+      to the index being defined by a the subweb (`si:subweb`).
       A
-      subweb is a set of IRIs or URI template managed by the data provider, while the completeness of a shape index
-      indicates whether every shape of the index are closed.
+      subweb is a set of IRIs or URI template managed by the data provider.
       To create a disjoint subweb, a data publisher MUST use the predicate si:subweb multiple times, which MUST be
       interpreted as a union of IRI sets (with an URI template already representing a set of IRIs).
       This scope characterization of the index is beneficial because query optimizations related to the
@@ -203,11 +203,14 @@
 
     <p>
       The core feature of the shape index is its mappings. A shape index can have multiple entries, each identified by
-      the term `si:entry`. Every entry includes a target set, identified by the term `si:subweb`. A target MUST be a subset
+      the term `si:entry`. Every entry includes a target set, identified by the term `si:subweb`. A target MUST be a
+      subset
       of the shape index's subweb, and the target subwebs MUST NOT overlap.
-      Each target set is associated with a shape, identified by the term `si:shape`. The target is a set of RDF resources,
+      Each target set is associated with a shape, identified by the term `si:shape`. The target is a set of RDF
+      resources,
       and every triple within these resources MUST conform to the shape linked to the target through the `si:shape`
       annotation. The example below present an example of a shape index.
+      A shape index is said to be complete if every shape binding a set of resources is closed and incomplete otherwise.
     </p>
 
     <pre class="resultTurtle">
@@ -226,12 +229,11 @@
           si:subweb &lt;http://mySubweb.com/0/data/research/paper_list&gt;
           si:subweb "http://mySubweb.com/0/data/reading_list/*"
         ] ;
-        si:complete true .  
     </pre>
 
     <p>
-      Furthermore, every set of triples within the subweb of the shape index that conforms to a shape (with a
-      closed-world assumption) associated with a `si:shape` MUST be contained within a resource that is part of the
+      Furthermore, every set of triples within the subweb of the shape index that conforms to a shape, with a
+      closed-world assumption, associated with a `si:shape` MUST be contained within a resource that is part of the
       target
       annotated with that shape. It is RECOMMENDED to use shapes with closed-world assumptions. If shapes with
       open-world assumptions are used, triples conforming to the shape SHOULD be inside a resource of the target.
@@ -240,7 +242,8 @@
     <p>
       When shapes nested within each other are used to bind targets (see the example below and notice that the shapes
       are
-      open), a set of triples conforming to the most restrictive shape (e.g., "http://mySubweb.com/readingList#ReadingListShape" in the example) SHOULD be
+      open), a set of triples conforming to the most restrictive shape (e.g.,
+      "http://mySubweb.com/readingList#ReadingListShape" in the example) SHOULD be
       located within the resources of that target. In a similar scenario with closed shapes, the set of triples MUST be
       located in the target of the most restrictive shape. If a set of triples can be validated by both an open and a
       closed shape, the triples MUST be located in the target of the closed shape.
@@ -308,7 +311,8 @@
     <p>
       The data provider can use the predicate`si:shapeIndexLocation` with as an object the IRI of the shape index.
       This triple can be placed at convenient locations in the data provider subweb.
-      It is RECOMMENDED to place the triple at every file inside of the subweb, to facilitate the discovery of the shape index.
+      It is RECOMMENDED to place the triple at every file inside of the subweb, to facilitate the discovery of the shape
+      index.
     </p>
     <!--
     <p>
@@ -326,13 +330,15 @@
     <h2>Entry discovery</h2>
 
     Entries (`si:entry`) can be defined abstractly using URI template.
-    Thus for the  discovery of the concrete IRI a data provider SHOULD (and it is highly RECOMMENDED) provide a mean for a query engine to find the concrete IRI of the set.
-    
-    when derefering the longest fixed path of an URI template, the server SHOULD provide a ressource providing every possible concrete IRI until another 
+    Thus for the discovery of the concrete IRI a data provider SHOULD (and it is highly RECOMMENDED) provide a mean for
+    a query engine to find the concrete IRI of the set.
+
+    when derefering the longest fixed path of an URI template, the server SHOULD provide a ressource providing every
+    possible concrete IRI until another
 
     The first one, is to at the root of URI template provide a tree structure (like a file server) of every resource hos
-    
-    
+
+
   </section>
 
   <section id="shape-dereferencing">
@@ -340,7 +346,8 @@
 
     <p>
       The shape resource MUST advertise its language using an HTTP header content type profile.
-      The language of the shape MUST be ShEx [[SHEX-SPEC]] (http://www.w3.org/ns/shex) or SHACL [[SHACL]] (http://www.w3.org/ns/shacl).
+      The language of the shape MUST be ShEx [[SHEX-SPEC]] (http://www.w3.org/ns/shex) or SHACL [[SHACL]]
+      (http://www.w3.org/ns/shacl).
       See the example below.
     </p>
 
@@ -420,10 +427,6 @@
         In that case, the IRI set is characterized by the IRI following the definition of containers
         from the Solid Specification [[SOLID-SPEC]] with the same usage as the mapping in the type index specification
         [[TYPE-INDEX-SPEC]].
-    </p>
-
-    <h3>`si:complete`</h3>
-    <p>A flag indicating if a shape index is complete, thus, shape binding is a closed shape.
     </p>
 
     <h3>`si:Entry`</h3>
