@@ -156,18 +156,20 @@
     <p>
       The Shape Trees specification [[SHAPE-TREES-SPEC]] is another effort aimed at enforcing structure in decentralized
       datasets. It proposes an indexing system centered around RDF data shapes, addressing the issue of limited
-      structural and statistical information found in the type index. However, the specification suffers from its
-      complexity and the lack of a concrete definition of a subweb (<a href='https://shapetrees.org/'
-        target='_blank'>the specification is somewhat tied to Solid</a>). While this complexity may be justified given
-      its objectives, for our purpose, query optimization using lightweight information, it becomes a burden for both
-      data
-      publishers and query engines.
+      structural information found in the type index. However, the focus of this specification is not
+      query optimization but management of <q cite="https://shapetrees.org/">interconnected resources</q>, which can
+      make
+      it complicated to gather the information necessary for query processing, additionally, <a
+        href='https://shapetrees.org/' target='_blank'>the specification is somewhat tied to Solid</a> which hinder a
+      more general use.
+      Given that this specification does not have widespread use and its added complexity for our query optimization
+      purpose, we propose to inspire ourselves from it to form another shape-based indexing structure.
     </p>
 
     <p>
       We propose a Shape Index as a generalizable and extendable solution for decentralized RDF data publication and
       summarization. It can be seen as an evolution of the type index, using the concept of shapes from Shape Trees but
-      in a simpler form.
+      in a simpler form for a query optimization aim.
 
       The primary focus of the Shape Index is query optimization, offering low-cost statistical and structural
       information to query engines while minimizing the burden on data providers. The specification may evolve to
