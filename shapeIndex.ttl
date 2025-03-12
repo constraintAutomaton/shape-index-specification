@@ -1,87 +1,88 @@
-@base <> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@base <file:///home/bryanelliott/Documents/PhD/paper/specification/shape%20index/shapeIndex.ttl>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
 
-<#ShapeIndex> a owl:Class ;
-    rdfs:label "Shape index"@en ;    
-    rdfs:comment """The section of the web that the shape index caracterizes.
+<#ShapeIndex> a owl:Class;
+  rdfs:label "Shape index"@en;
+  rdfs:comment """The section of the web that the shape index caracterizes.
      It can be a single IRI or IRI pattern in the form of a regex or a set of IRI and/or regex IRI pattern.
-      To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be in a tree structure."""@en ;
-    owl:equivalentClass [
-        a owl:Class ;
-        owl:intersectionOf (
-            [ a owl:Restriction ;
-              owl:onProperty <#subweb> ;
-              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger 
-            ]
-            [ a owl:Restriction ;
-              owl:onProperty <#entry> ;
-              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger 
-            ]
-        )                             
-    ] .
+      To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be in a tree structure."""@en;
+  owl:equivalentClass [
+    a owl:Class;
+    owl:intersectionOf ( [
+      a owl:Restriction;
+      owl:onProperty <#subweb>;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+    ] [
+      a owl:Restriction;
+      owl:onProperty <#entry>;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+    ] );
+  ].
 
-<#Entry> a owl:Class ;
-    rdfs:label "Entry"@en ;
-    rdfs:comment "A shape index entry mapping a shape of resources to an RDF shape."@en ; 
-    owl:equivalentClass [
-        a owl:Class ;
-        owl:intersectionOf (
-            [ a owl:Restriction ;
-              owl:onProperty <#subweb> ;
-              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger
-            ]
-            [ a owl:Restriction ;
-              owl:onProperty <#excludes> ;
-              owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger
-            ]
-            [ a owl:Restriction ;
-              owl:onProperty <#shape> ;
-              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-            ]
-        )                             
-    ] .
+<#Entry> a owl:Class;
+  rdfs:label "Entry"@en;
+  rdfs:comment "A shape index entry mapping a shape of resources to an RDF shape."@en;
+  owl:equivalentClass [
+    a owl:Class;
+    owl:intersectionOf ( [
+      a owl:Restriction;
+      owl:onProperty <#subweb>;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+    ] [
+      a owl:Restriction;
+      owl:onProperty <#excludes>;
+      owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger;
+      owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+    ] [
+      a owl:Restriction;
+      owl:onProperty <#shape>;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger;
+    ] );
+  ].
 
-<#entry> a owl:ObjectProperty ;
-    rdfs:label "Has an entry"@en ;
-    rdfs:comment "Lead to a `si:Entry` in the object position."@en ;
-    rdfs:domain <#ShapeIndex>;
-    rdfs:range <#Entry> .
+<#entry> a owl:ObjectProperty;
+  rdfs:label "Has an entry"@en;
+  rdfs:comment "Lead to a `si:Entry` in the object position."@en;
+  rdfs:domain <#ShapeIndex>;
+  rdfs:range <#Entry>.
 
-<#shapeIndexLocation> a owl:ObjectProperty ;
-    rdfs:label "A shape index is located at"@en ;
-    rdfs:comment "Indicate that a shape index is located at the IRI at the object position of a triple using this term at the predicate position."@en ;
-    rdfs:range <#ShapeIndex> .
+<#shapeIndexLocation> a owl:ObjectProperty;
+  rdfs:label "A shape index is located at"@en;
+  rdfs:comment "Indicate that a shape index is located at the IRI at the object position of a triple using this term at the predicate position."@en;
+  rdfs:range <#ShapeIndex>.
 
-<#subweb> a  owl:ObjectProperty ;
-    rdfs:label "Is within this subweb"@en ;
-    rdfs:comment """The section of the web that the shape index caracterizes.
+<#subweb> a owl:ObjectProperty;
+  rdfs:label "Is within this subweb"@en;
+  rdfs:comment """The section of the web that the shape index caracterizes.
       It can be a single IRI or URI template in the form of a string or a set of IRI and/or string of URI template.
       To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
-      in a tree structure."""@en ;
-    rdfs:domain <#ShapeIndex>;
-    rdfs:domain <#Entry>;
-    rdfs:range [
-        a owl:Class ;
-        owl:unionOf ( xsd:string rdfs:Resource )
-    ] .
+      in a tree structure.
+      Subweb can be nested however they should be interpreted as a set of IRI and not a collection of set of IRI.
+      """@en;
+  rdfs:domain <#ShapeIndex>;
+  rdfs:domain <#Entry>;
+  rdfs:range [
+    a owl:Class;
+    owl:unionOf ( xsd:string rdfs:Resource );
+  ].
 
-<#shape> a  owl:ObjectProperty ;
-    rdfs:label "Is validated by the shape"@en ;
-    rdfs:comment "The shape binding a `si:subweb`."@en;
-    rdfs:domain <#Entry> ;
-    rdfs:range rdfs:Resource .
+<#shape> a owl:ObjectProperty;
+  rdfs:label "Is validated by the shape"@en;
+  rdfs:comment "The shape binding a `si:subweb`."@en;
+  rdfs:domain <#Entry>;
+  rdfs:range rdfs:Resource.
 
-<#excludes> a  owl:ObjectProperty ;
-    rdfs:label "Is the shape excluded from the subweb"@en ;
-    rdfs:comment "Indicate that the `si:Entry` exclude the shape from the target subweb."@en;
-    rdfs:domain <#ShapeIndex>;
-    rdfs:range xsd:boolean .
+<#excludes> a owl:ObjectProperty;
+  rdfs:label "Is the shape excluded from the subweb"@en;
+  rdfs:comment "Indicate that the `si:Entry` exclude the shape from the target subweb."@en;
+  rdfs:domain <#ShapeIndex>;
+  rdfs:range xsd:boolean.
 
-<http://www.w3.org/ns/solid/terms#instanceContainer> a <#subweb> ;
+<http://www.w3.org/ns/solid/terms#instanceContainer> a <#subweb>;
   rdfs:comment """When a Solid container is used as a subweb, the resources are distributed following the LDP Specification.
   See the Solid Specification for more information https://solidproject.org/TR/protocol and 
   the Type Index Specification https://solid.github.io/type-indexes/"""@en.
+
