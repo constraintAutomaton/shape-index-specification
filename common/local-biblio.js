@@ -59,6 +59,24 @@ var localBibliography = {
     "status": "Conference Proceeding",
     "publisher": "22nd International Semantic Web Conference – ISWC 2023"
   },
+  "SAMBRA-2016":{
+    "authors": [
+        "Andrei Vlad Sambra",
+        "Essam Mansour",
+        "Sandro Hawke",
+        "Maged Zereba",
+        "Nicola Greco",
+        "Abdurrahman Ghanem",
+        "Dmitri Zagidulin",
+        "Ashraf Aboulnaga",
+        "Tim Berners-Lee"
+    ],
+    "href": "http://emansour.com/research/lusail/solid_protocols.pdf",
+    "title": "Solid : A Platform for Decentralized Social Applications Based on Linked Data",
+    "rawDate": "2016",
+    "status": "Conference Proceeding",
+    "publisher": "MIT CSAIL \& Qatar Computing Research Institute, Tech. Rep."
+  },
   "TAM-2024": {
     "authors": [
         "Bryan-Elliott Tam",
