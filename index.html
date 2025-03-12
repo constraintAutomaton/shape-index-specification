@@ -80,8 +80,9 @@
     <h2>Terminology</h2>
     <dl>
       <dt>Subweb</dt>
-      <dd>A subset of the web, defined by a set of IRIs or URI template [[RFC6570]] (URI template are considered as sets
-        of IRI).
+      <dd>A subweb is defined as a set of IRIs or URI templates [[RFC6570]], where URI templates are treated as sets of
+        IRIs. While subwebs can be nested, each subweb should be understood as a single set of IRIs rather than a
+        collection of sets of IRIs.
       </dd>
 
       <dt>RDF Data Shape</dt>
@@ -119,67 +120,60 @@
     <p>
       When publishing linked data, providers face many concerns, ranging from data model and ontology design to the
       exposition of data through an endpoint and its distribution. When distributing data, publishers often structure it
-      logically. For example, data about books might be located at ex:books, while personal data might be found at
-      ex:profile, and so on.
+      logically. For example, data about books might be located at `ex:books`, while personal data might be found at
+      `ex:profile`, and so on.
     </p>
 
     <p>
       The Solid specification [[SOLID-SPEC]], with its concept of storage units (often referred to as pods
-      [[TAELMAN-2023]]), and its use of the LDP specification [[LDP-SPEC]], provides a structured approach to
-      distributing linked data. The approach consists of delimiting the domain of a dataset’s publication through a
-      tree-structured URL pattern.
+      [[TAELMAN-2023]]) and its use of the LDP specification [[LDP-SPEC]], provides a structured approach to
+      distributing linked data. This approach defines the scope of a dataset's publication using a tree-structured URL
+      pattern.
 
-      Such a structure allows query engines to gain some information about the limit of the subweb of publication of
-      specific
-      data publishers. However, it provides little information about the
-      dataset's content. The content information could be particularly useful in traversal queries by helping query
-      engines to infer whether the content of specific documents is relevant to the query. Additionally, such
-      information
-      could help make
-      strategic decisions for query planning considering the provenance of data.
+      Such a structure allows query engines to infer the boundaries of a data publisher's subweb but offers little
+      insight into the dataset’s actual content. Content information could be valuable for traversal queries by helping
+      query engines determine whether specific documents contain relevant data. Additionally, such information could
+      support strategic query planning by considering data provenance.
     </p>
     <p>
 
-      The type index specification [[TYPE-INDEX-SPEC]] provides a limited means for query engines to know the
-      content of a dataset, or more specifically, a Solid pod [[TAELMAN-2023]]. In essence, the type index is a mapping
-      between types and subwebs within a single Solid pod.
+      The type index specification [[TYPE-INDEX-SPEC]] provides a limited means for query engines to understand the
+      content of a dataset, specifically within a Solid pod [[TAELMAN-2023]]. Essentially, the type index serves as a
+      mapping between types and subwebs within a single Solid pod.
 
-      The type index has two major limitations. First, it only requires the data provider to specify a type,
-      without offering additional information about the properties associated with that type. This limits the ability of
-      query engines to assess the relevance of sources and provides minimal structural or statistical information about
-      the dataset's content. Additionally, the type index is closely tied to Solid, as it does not clearly define the
-      subweb it operates within or whether it describes the entire dataset within that subweb. As a result, this
-      solution is difficult to generalize beyond the Solid ecosystem and offer limited option for query planning and
-      search space optimization.
+      However, the type index has two major limitations. First, it only requires data providers to specify a type
+      without offering additional details about the properties associated with that type. This limits query engines'
+      ability to assess a source’s relevance and provides minimal structural or statistical information about the
+      dataset's content. Second, the type index is tightly coupled to the Solid ecosystem, as it does not clearly define
+      the subweb it operates within or whether it describes the entire dataset in that subweb. Consequently, this
+      solution is difficult to generalize beyond Solid and offers limited options for query planning and search space
+      optimization.
     </p>
 
     <p>
-      The Shape Trees specification [[SHAPE-TREES-SPEC]] is another effort aimed at enforcing structure in decentralized
-      datasets. It proposes an indexing system centered around RDF data shapes, addressing the issue of limited
-      structural information found in the type index. However, the focus of this specification is not
-      query optimization but management of <q cite="https://shapetrees.org/">interconnected resources</q>, which can
-      make
-      it complicated to gather the information necessary for query processing, additionally, <a
-        href='https://shapetrees.org/' target='_blank'>the specification is somewhat tied to Solid</a> which hinder a
-      more general use.
-      Given that this specification does not have widespread use and its added complexity for our query optimization
-      purpose, we propose to inspire ourselves from it to form another shape-based indexing structure.
+      The Shape Trees specification [[SHAPE-TREES-SPEC]] is another effort to enforce structure in decentralized
+      datasets. It introduces an indexing system based on RDF data shapes, addressing the lack of structural information
+      in the type index. However, its primary focus is not query optimization but rather the management of <q
+        cite="https://shapetrees.org/">interconnected resources</q>. This focus makes it challenging to extract the
+      necessary information for query processing. Additionally, <a href='https://shapetrees.org/' target='_blank'>the
+        specification is somewhat tied to Solid</a>, limiting its applicability beyond that ecosystem.
+
+      Given its limited adoption and the added complexity it introduces for query optimization, we propose drawing
+      inspiration from it to develop a new shape-based indexing structure.
     </p>
 
     <p>
       We propose a Shape Index as a generalizable and extendable solution for decentralized RDF data publication and
-      summarization. It can be seen as an evolution of the type index, using the concept of shapes from Shape Trees but
-      in a simpler form for a query optimization aim.
+      summarization. It can be seen as an evolution of the type index, incorporating the concept of shapes from Shape
+      Trees but in a simplified form, specifically designed for query optimization.
 
-      The primary focus of the Shape Index is query optimization, offering low-cost statistical and structural
-      information to query engines while minimizing the burden on data providers. The specification may evolve to
-      include
-      optional, richer, and higher-cost statistical information about data sources for more advanced query optimization.
+      The primary goal of the Shape Index is to enhance query optimization by providing low-cost statistical and
+      structural information to query engines while minimizing the burden on data providers. The specification may
+      evolve to include optional, richer, and higher-cost statistical details for more advanced query optimization.
 
-      Like Shape Trees, the Shape Index maps RDF data shapes to resources. However, it introduces an explicit definition
-      of the subwebs in which the Shape Index operates.
-      It also allows for disjointed targets and subwebs.
-      The shape index also supports negative entries to indicate what is excluded from a target or the entire subweb.
+      Like Shape Trees, the Shape Index maps RDF data shapes to resources. However, it explicitly defines the subwebs in
+      which it operates and allows for disjointed targets and subwebs. Additionally, the Shape Index supports negative
+      entries, enabling the specification of exclusions within a target or an entire subweb.
     </p>
 
   </section>
@@ -194,7 +188,7 @@
       A shape index is a scoped mapping between sets of RDF resources and RDF data shapes. In this context, scope refers
       to the index being defined by a the subweb (`si:subweb`).
       A
-      subweb is a set of IRIs or URI template managed by the data provider.
+      subweb is a set of IRIs or URI templates managed by the data provider.
       To create a disjoint subweb, a data publisher MUST use the predicate si:subweb multiple times, which MUST be
       interpreted as a union of IRI sets (with an URI template already representing a set of IRIs).
       This scope characterization of the index is beneficial because query optimizations related to the
@@ -204,15 +198,18 @@
     </p>
 
     <p>
-      The core feature of the shape index is its mappings. A shape index can have multiple entries, each identified by
-      the term `si:entry`. Every entry includes a target set, identified by the term `si:subweb`. A target MUST be a
+      The core feature of the Shape Index is its mappings. A Shape Index can contain multiple entries, each identified
+      by the term si:entry. Every entry includes a target set, denoted by the term `si:subweb`. A target MUST be a
       subset
-      of the shape index's subweb, and the target subwebs MUST NOT overlap.
-      Each target set is associated with a shape, identified by the term `si:shape`. The target is a set of RDF
-      resources,
-      and every triple within these resources MUST conform to the shape linked to the target through the `si:shape`
-      annotation. The example below present an example of a shape index.
-      A shape index is said to be complete if every shape binding a set of resources is closed and incomplete otherwise.
+      of the Shape Index's subweb, and target subwebs MUST NOT overlap.
+
+      Subwebs represent subsections of the web controlled by a data provider, which may be restricted by constraints
+      such as shape constraints or a Shape Index's set of constraints. Each target set is associated with a shape,
+      identified by the term `si:shape`. The target is a set of RDF resources, and every triple within these resources
+      MUST conform to the shape linked to the target via the `si:shape` annotation.
+
+      The example below illustrates a Shape Index. A Shape Index is considered complete if every shape binding a set of
+      resources is closed; otherwise, it is incomplete.
     </p>
 
     <pre class="resultTurtle">
@@ -234,21 +231,24 @@
     </pre>
 
     <p>
-      Furthermore, every set of triples within the subweb of the shape index that conforms to a shape, with a
-      closed-world assumption, associated with a `si:shape` MUST be contained within a resource that is part of the
-      target
-      annotated with that shape. It is RECOMMENDED to use shapes with closed-world assumptions. If shapes with
-      open-world assumptions are used, triples conforming to the shape SHOULD be inside a resource of the target.
+      Furthermore, every set of triples within the subweb of the Shape Index that conforms to a shape,
+      under a closed-world assumption, associated with an `si:shape` MUST be contained within a resource
+      that is part of the target annotated with that shape.
+
+      It is RECOMMENDED to use shapes with closed-world assumptions. If shapes with open-world
+      assumptions are used, triples conforming to the shape SHOULD be inside a resource of the target.
+
     </p>
 
     <p>
-      When shapes nested within each other are used to bind targets (see the example below and notice that the shapes
-      are
+      When shapes nested within each other are used to bind targets (see the example below; note that the shapes are
       open), a set of triples conforming to the most restrictive shape (e.g.,
-      "http://mySubweb.com/readingList#ReadingListShape" in the example) SHOULD be
-      located within the resources of that target. In a similar scenario with closed shapes, the set of triples MUST be
-      located in the target of the most restrictive shape. If a set of triples can be validated by both an open and a
-      closed shape, the triples MUST be located in the target of the closed shape.
+      "http://mySubweb.com/readingList#ReadingListShape" in the example) SHOULD be located within the resources of that
+      target.
+
+      In a similar scenario with closed shapes, the set of triples MUST be located in the target of the most restrictive
+      shape. If a set of triples can be validated by both an open and a closed shape, the triples MUST be located in the
+      target of the closed shape.
     </p>
 
     <pre class="data">
@@ -274,11 +274,12 @@
   <section id="negative-entries">
     <h2>Negative Entries</h2>
     <p>
-      The shape index allows for describing RDF data shapes that are not present within a subweb. This is indicated
+      The Shape Index allows for describing RDF data shapes that are not present within a subweb. This is indicated
       using the `si:excludes` property within a `si:Entry`. Shapes specified in this way MUST adhere to a closed-world
       assumption, ensuring that no sets of triples within the subweb target validate against these shapes. It is
-      RECOMMENDED to use these exclusions alongside shape constraints in the index, particularly to specify when nested
+      RECOMMENDED to use these exclusions alongside shape constraints in the index, especially to specify when nested
       shapes are absent from the subweb.
+
     </p>
 
     <pre class="resultTurtle">
@@ -304,16 +305,17 @@
   </section>
 
   <section id="shape-index-discovery">
-    <h2>How to Discover a Shape Index</h2>
+    <h2>Discover Mechanism in Shape Index</h2>
+    <h3>How to Discover a Shape Index?</h3>
     <p>
       The discovery of the shape index is left to the data provider.
       However, one approache is RECOMMENDED.
     </p>
 
     <p>
-      The data provider can use the predicate`si:shapeIndexLocation` with as an object the IRI of the shape index.
-      This triple can be placed at convenient locations in the data provider subweb.
-      It is RECOMMENDED to place the triple at every file inside of the subweb, to facilitate the discovery of the shape
+      The data provider can use the predicate `si:shapeIndexLocation` with the IRI of the shape index as its object.
+      This triple can be placed at convenient locations within the data provider's subweb.
+      It is RECOMMENDED to place the triple in every file inside the subweb to facilitate the discovery of the shape
       index.
     </p>
     <!--
@@ -326,21 +328,19 @@
 
     </p>
   -->
-  </section>
+    <h3>How to Discover the Resources Associated With a Subweb?</h3>
+    <p>
+      The subweb of an Entries (`si:entry`) can be defined abstractly using a URI template. Therefore, to discover the concrete IRI, a
+      data provider SHOULD (and it is highly RECOMMENDED) provide a way for a query engine to find the concrete IRI of
+      the set.
 
-  <section id="entry-discovery">
-    <h2>Entry discovery</h2>
+      One approach is that when dereferencing fixed path segments located before a variable path segment in a URI
+      template, the server SHOULD provide a resource that offers all possible concrete IRIs until another is
+      encountered.
 
-    Entries (`si:entry`) can be defined abstractly using URI template.
-    Thus for the discovery of the concrete IRI a data provider SHOULD (and it is highly RECOMMENDED) provide a mean for
-    a query engine to find the concrete IRI of the set.
-
-    when derefering the longest fixed path of an URI template, the server SHOULD provide a ressource providing every
-    possible concrete IRI until another
-
-    The first one, is to at the root of URI template provide a tree structure (like a file server) of every resource hos
-
-
+      Another approach is to provide a tree structure at the root of the URI template (similar to a file server) that
+      lists all hosted resources.
+    </p>
   </section>
 
   <section id="shape-dereferencing">
@@ -420,9 +420,10 @@
     <h3>`si:subweb`</h3>
     <p>
       The section of the web that the shape index caracterizes.
-      It can be a single IRI or URI template in the form of a string or a set of IRI and/or string of URI template.
+      It can be a single IRI or a URI template in the form of a string or a set of IRI and/or string of a URI template.
       To represent a set multiple `si:subweb` predicate MUST be defined, thus the subweb does not have to be
       in a tree structure.
+      Subweb can be nested however they should be interpreted as a set of IRI and not a collection of set of IRI.
     </p>
     <p>
       The term `<http: //www.w3.org/ns/solid/terms#instanceContainer>` can be used as a subweb term.
