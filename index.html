@@ -185,10 +185,8 @@
       <figcaption>A UML-like representation of the shape index definition</figcaption>
     </figure>
     <p>
-      A shape index is a scoped mapping between sets of RDF resources and RDF data shapes. In this context, scope refers
-      to the index being defined by a the subweb (`si:subweb`).
-      A
-      subweb is a set of IRIs or URI templates managed by the data provider.
+      A shape index is a mapping between sets of RDF resources and RDF data shapes.
+      A subweb is a set of IRIs or URI templates managed by the data provider.
       To create a disjoint subweb, a data publisher MUST use the predicate si:subweb multiple times, which MUST be
       interpreted as a union of IRI sets (with an URI template already representing a set of IRIs).
       This scope characterization of the index is beneficial because query optimizations related to the
@@ -330,7 +328,8 @@
   -->
     <h3>How to Discover the Resources Associated With a Subweb?</h3>
     <p>
-      The subweb of an Entries (`si:entry`) can be defined abstractly using a URI template. Therefore, to discover the concrete IRI, a
+      The subweb of an Entries (`si:entry`) can be defined abstractly using a URI template. Therefore, to discover the
+      concrete IRI, a
       data provider SHOULD (and it is highly RECOMMENDED) provide a way for a query engine to find the concrete IRI of
       the set.
 
