@@ -5,7 +5,7 @@ An online version is available at [this hypermedia link](https://constraintautom
 The specification is written in "pure" HTML, Javascript, and CSS, so it does not require building. The `./index.html` contains all the documentation.
 Issues about the website or proposition of improvement can be made via the [github issues](https://github.com/constraintAutomaton/shape-index-specification/issues).
 
-# Abstract
+## Abstract
 
 The open web and linked data are often seen as complementary,
 yet this doesn't imply that data publication should be disorganized.
@@ -23,3 +23,6 @@ powerful structural and statistical information about the content of RDF dataset
     <img src="./figure/shape_index.drawio.svg" alt="A schematic representation of a shape index" width="65%" height="auto" />
     <figcaption>A shape index annotates subwebs of documents corresponding to certain data shapes</figcaption>
 </figure>
+
+## License
+The code is licensed under the CC-BY-4.0 license. See the [LICENSE](LICENSE) file for details.
