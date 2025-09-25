@@ -213,10 +213,10 @@
     <pre class="resultTurtle">
       &lt;http://mySubweb.com/index1&gt; a si:ShapeIndex ;
         si:subweb &lt;http://mySubweb.com/&gt; ;
-        si:subweb "http://mySubweb.com/0/data/.*/*" ;
+        si:subweb "http://mySubweb.com/0/data/.*/.*" ;
         si:entry [
           si:shape ex:profile#ProfileShape ;
-          si:subweb &lt;http://mySubweb.com/profile&gt;
+          si:subweb &lt;http://mySubweb.com/0/data/profile&gt;
         ], [
           si:shape ex:movieReview#MovieReviewShape ;
           si:subweb "http://mySubweb.com/0/data/movie_review/.*"
